@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.env.sample
+coverage
+npm-debug.log
+Dockerfile
+.dockerignore
+Deployment
+brigade.js
+
+
+
