@@ -2,21 +2,31 @@ import BaseSchema from '../../../libs/BaseRepo/BaseSchema';
 
 export default class UserSchema extends BaseSchema {
     constructor(options: any) {
+        const addressSchema = {
+            flat_no: {
+                type: Number,
+            },
+            city: {
+                type: String,
+            },
+            state: {
+                type: String,
+            },
+        };
+
         const baseSchema = {
             name: {
                 type: String,
             },
-            empId: {
-                type: String,
-            },
             email: {
                 type: String,
+                isUnique: true,
             },
             mobile_no: {
                 type: String,
             },
             address: {
-                type: Object,
+                type: addressSchema,
             },
             age: {
                 type: Number,

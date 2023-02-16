@@ -37,7 +37,7 @@ D extends mongoose.Document, M extends mongoose.Model<D>
     }
 
     public async findOne(query : any): Promise < D > {
-        return this.ModelType.findOne(query);
+        return this.ModelType.findById(query.id);
     }
 
     public async update(query: IQueryBaseUpdate, itemsToUpdate: IQueryUpdate): Promise < D > {

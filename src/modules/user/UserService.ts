@@ -18,8 +18,7 @@ class UserService {
     }
 
     public async get(query): Promise<IUser> {
-        const { id } = query;
-        return this.userRepository.get({ id });
+        return this.userRepository.get(query);
     }
 
     public async update(option: string, query): Promise<IUser> {

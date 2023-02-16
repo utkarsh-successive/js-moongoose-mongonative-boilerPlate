@@ -1,10 +1,8 @@
 import * as winston from 'winston';
 
 export class Create {
-  
-  public createLogInstance = (loggerConfig) => {
-    return winston.createLogger(loggerConfig);
-  };
+    // eslint-disable-next-line class-methods-use-this
+    public createLogInstance = (loggerConfig) => winston.createLogger(loggerConfig);
 }
 
 export default new Create();

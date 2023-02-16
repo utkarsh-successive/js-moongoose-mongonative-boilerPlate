@@ -12,22 +12,22 @@ router.route('/')
         controller.list,
     );
 
-// router.route('/:id')
-//     .get(
-//         validationHandler(validation.get as any),
-//         controller.get,
+router.route('/:id')
+    .get(
+        validationHandler(validation.get as any),
+        controller.get,
 
-//     );
+    );
 
 router.route('/')
     .post(
-        // validationHandler(validation.create as any),
+        validationHandler(validation.create as any),
         controller.create,
     );
 
 router.route('/:id')
     .put(
-        // validationHandler(validation.update as any),
+        validationHandler(validation.update as any),
         controller.update,
     );
 router.route('/:id')

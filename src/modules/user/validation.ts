@@ -1,25 +1,42 @@
-import { isValidObjectId } from '../../libs/MongoUtils';
+import { isNumberValid, isValidObjectId } from '../../libs/MongoUtils';
 
 export default Object.freeze({
     create: {
-        title: {
-            errorMessage: 'title is wrong!',
-            in: ['body'],
+        name: {
             isLength: {
-                errorMessage: 'title should be at least 2 chars long',
+                errorMessage: 'name should be at least 2 chars long',
                 options: { min: 2 },
             },
         },
-        description: {
-            errorMessage: 'description is wrong!',
-            in: ['body'],
-            isLength: {
-                errorMessage: 'Description should be at least 2 chars long',
-                options: { min: 2 },
+        email: {
+            isEmail: {
+                errorMessage: 'Please provide valid email',
             },
+        },
+        age: {
+            custom: {
+                options: (value: number) => isNumberValid(value, 'age'),
+            },
+        },
+        'address.flat_no': {
+            custom: {
+                options: (value: number) => {
+                    if (typeof value !== 'number' || value <= 0) {
+                        throw new Error('flat no. should be greater than 0');
+                    }
+                    return true;
+                },
+            },
+        },
+        'address.state': {
+            notEmpty: true,
+            errorMessage: 'state cannot be empty',
+        },
+        'address.city': {
+            notEmpty: true,
+            errorMessage: 'city cannot be empty',
         },
     },
-
     delete: {
         id: {
             custom: {
@@ -63,12 +80,49 @@ export default Object.freeze({
                 options: (id: string) => isValidObjectId(id),
             },
             errorMessage: 'Bad ID format',
-            in: ['body'],
+            in: ['params'],
         },
-        status: {
-            errorMessage: 'Bad ID format',
-            in: ['body'],
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            optional: true,
         },
+        email: {
+            isEmail: {
+                errorMessage: 'Please provide valid email',
+            },
+            optional: true,
+        },
+        age: {
+            custom: {
+                options: (value: number) => isNumberValid(value, 'age'),
+            },
+            optional: true,
+        },
+        'address.flat_no': {
+            custom: {
+                options: (value: number) => {
+                    if (typeof value !== 'number' || value <= 0) {
+                        throw new Error('flat no. should be greater than 0');
+                    }
+                    return true;
+                },
+            },
+            optional: true,
+        },
+        'address.state': {
+            notEmpty: true,
+            errorMessage: 'state cannot be empty',
+            optional: true,
+        },
+        'address.city': {
+            notEmpty: true,
+            errorMessage: 'city cannot be empty',
+            optional: true,
+        },
+        optional: true,
     },
 
 });

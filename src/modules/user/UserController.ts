@@ -24,11 +24,11 @@ class UserController {
                 skip,
             );
             if (!result.length) {
-                logger.debug({ message: 'Data not found', option: [], data: [] });
-                return res.send(SystemResponse.badRequestError('Data not found', ''));
+                logger.debug({ message: 'Data not found', data: [] });
+                return res.send(SystemResponse.notFoundError('Data not found', []));
             }
-            logger.info({ message: 'List of ToDo', data: [], option: [] });
-            return res.send(SystemResponse.success('List of ToDo ', result));
+            logger.info({ message: 'List of Users', data: result });
+            return res.send(SystemResponse.success('List of users', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
             return res.send(SystemResponse.internalServerError);
@@ -43,9 +43,9 @@ class UserController {
             const result = await moduleService.create(
                 req.body,
             );
-            logger.info({ messgae: 'Record Added Successfully', data: [], option: [] });
+            logger.info({ message: 'User added successfully', data: result });
             return res.send(
-                SystemResponse.success('Record Added Succefully', result),
+                SystemResponse.success('User added successfully', result),
             );
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
@@ -59,11 +59,15 @@ class UserController {
         const { moduleService } = services;
         try {
             const { id } = req.params;
-            const result = await moduleService.get({
+            const userInfo = await moduleService.get({
                 id,
             });
-            logger.info({ messgae: 'ToDo record found', data: [] });
-            return res.send(SystemResponse.success('ToDo record Found..!', result));
+            if (!userInfo || !Object.keys(userInfo)?.length) {
+                logger.info({ message: 'User not found', data: {} });
+                return res.send(SystemResponse.notFoundError('User not found', {}));
+            }
+            logger.info({ message: 'Fetch user successfully', data: userInfo });
+            return res.send(SystemResponse.success('Fetch user successfully', userInfo));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
             return res.send(SystemResponse.internalServerError);
@@ -72,15 +76,22 @@ class UserController {
 
     // eslint-disable-next-line class-methods-use-this
     public update = async (req, res) => {
-        console.log('request.params.id', req.params.id);
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
+            const { id } = req.params;
             const data = req.body;
+            const userInfo = await moduleService.get({
+                id,
+            });
+            if (!userInfo || !Object.keys(userInfo)?.length) {
+                logger.info({ message: 'User not found', data: userInfo });
+                return res.send(SystemResponse.notFoundError('User not found', userInfo));
+            }
             const result = await moduleService.update(req.params.id, data);
-            logger.info({ messgae: 'Record updated', data: [] });
+            logger.info({ messgae: 'Userinfo update successfully', data: result });
             return res.send(
-                SystemResponse.success('Record updated successfully', result),
+                SystemResponse.success('Userinfo update successfully', result),
             );
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
@@ -94,11 +105,18 @@ class UserController {
         const { moduleService } = services;
         try {
             const { id } = req.param;
+            const userInfo = await moduleService.get({
+                id,
+            });
+            if (!userInfo || !Object.keys(userInfo)?.length) {
+                logger.info({ message: 'User not found', data: userInfo });
+                return res.send(SystemResponse.notFoundError('User not found', userInfo));
+            }
             const result = await moduleService.delete({
                 id,
             });
-            logger.info({ messgae: 'Record deleted', data: [], option: [] });
-            return res.send(SystemResponse.success('Record deleted', result));
+            logger.info({ message: 'User information deleted' });
+            return res.send(SystemResponse.success('User information deleted', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
             return res.send(SystemResponse.internalServerError);

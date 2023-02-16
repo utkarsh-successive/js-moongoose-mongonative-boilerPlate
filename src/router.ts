@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { SystemResponse } from './libs/response-handler';
 import userRouter from './modules/user/router';
 import initServiceMiddleware from './middleware/initServiceMiddleware';
-import { Services } from './services/constants';
 import UserService from './modules/user/UserService';
 
 const appInfo = require('../package.json');
