@@ -104,7 +104,7 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { id } = req.param;
+            const { id } = req.params;
             const userInfo = await moduleService.get({
                 id,
             });

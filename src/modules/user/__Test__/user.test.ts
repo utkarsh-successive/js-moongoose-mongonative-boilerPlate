@@ -19,7 +19,7 @@ describe('For user endpoints', () => {
 
         mongoServer = await MongoMemoryServer.create({
             instance: {
-                dbName: 'users-exp-boiler',
+                dbName: 'users-mongo-boiler',
             },
         });
         mongoUri = mongoServer.getUri();
@@ -28,83 +28,88 @@ describe('For user endpoints', () => {
 
     //* *** Positive Test Cases ****/
     describe('Positive Test cases', () => {
-        test('create todo', async () => {
+        test('create user', async () => {
             const newUser = {
-                title: 'Demo',
-                description: 'Testing the test cases',
+                name:"utkarsh Tomer",
+                email: "utkarsh@gmail.com",
+                mobile_no: "8859755869",
+               address: {"flat_no": 1, "city": "sikandarabad", "state": "uttar Pradesh "},
+               age: 25
             };
             const res = await req
-                .post('/api/todo')
+                .post('/api/user')
                 .send(newUser);
             expect(res.status).toBe(200);
-            expect(res.body.data.title).toBe(newUser.title);
-            expect(res.body.data.description).toBe(newUser.description);
+            expect(res.body.data.name).toBe(newUser.name);
+            console.log(res.body.data.id, "objectid");
             ID = res.body.data.id;
         });
 
-        test('get todo list', async () => {
-            const res = await req.get('/api/todo');
+        test('get user list', async () => {
+            const res = await req.get('/api/user');
             expect(res.status).toBe(200);
             expect(res.body.data).not.toBeUndefined();
         });
 
-        test('get single todo', async () => {
-            const res = await req.get(`/api/todo/${ID}`);
+        test('get single user', async () => {
+            const res = await req.get(`/api/user/${ID}`);
             expect(res.status).toBe(200);
         });
 
-        test('update todo', async () => {
+        test('update user', async () => {
             const updateUser = {
-                id: `${ID}`,
-                status: 'in progress',
+                    name: "siddhant Garg",
+                    email: "siddhant.garg@gmail.com"
             };
             const res = await req
-                .put('/api/todo')
+                .put(`/api/user/${ID}`)
                 .send(updateUser);
+                console.log('updateduser', res);
             expect(res.status).toBe(200);
             ID2 = res.body.data.id;
         });
 
-        test('delete todo', async () => {
+        test('delete user', async () => {
+            console.log('id2delete', ID2);
             const res = await req
-                .delete(`/api/todo/${ID2}`);
+                .delete(`/api/user/${ID2}`);
             expect(res.status).toBe(200);
-            expect(res.body.message).toBe('Record deleted');
+            expect(res.body.message).toBe('User information deleted');
         });
     });
     //* *** Negative Test Cases ****/
 
     describe('Negative Test Cases', () => {
-        test('negative create case', async () => {
+        test('negative user create case', async () => {
             const newUser = {};
             const res = await req
-                .post('/api/todo')
+                .post('/api/user')
                 .send(newUser);
             expect(res.status).toBe(400);
         });
-        test('negative get todo list', async () => {
-            const res = await req.get('/api/todo').query({ limit: '50', skip: '50' });
-            expect(res.body.status).toBe(400);
+        test('negative get user list', async () => {
+            const res = await req.get('/api/user').query({ limit: '50', skip: '50' });
+            expect(res.body.status).toBe(404);
         });
 
-        test('negative get single todo', async () => {
-            const res = await req.get(`/api/todo/${id}`);
+        test('negative get single user', async () => {
+            const res = await req.get(`/api/user/${id}`);
             expect(res.status).toBe(400);
         });
 
-        test('negative update todo', async () => {
+        test('negative update user', async () => {
             const updateUser = {};
             const res = await req
-                .put('/api/todo')
+                .put(`/api/user/${'id'}`)
                 .send(updateUser);
             expect(res.status).toBe(400);
         });
 
         //* *** Test Case for DELETE API to delete the user ****/
 
-        test('negative delete todo', async () => {
+        test('negative delete user', async () => {
             const res = await req
-                .delete(`/api/todo/${''}`);
+                .delete(`/api/user/`);
             expect(res.status).toBe(404);
         });
     });
