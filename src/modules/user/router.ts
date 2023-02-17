@@ -230,4 +230,8 @@ router.route('/:id')
         controller.delete,
     );
 
+router.route('/bulkInsert').post(controller.bulkInsert)
+
+router.route('/bulk/:name').delete(controller.bulkDelete)
+
 export default router;

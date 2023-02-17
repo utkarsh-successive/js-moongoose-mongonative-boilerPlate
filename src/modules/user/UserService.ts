@@ -17,10 +17,14 @@ class UserService {
         return this.userRepository.create(query);
     }
 
+    public async bulkInsert(query): Promise<IUser[]> {
+        return this.userRepository.bulkInsert(query);
+    }
+
     public async get(query): Promise<IUser> {
         return this.userRepository.get(query);
     }
-
+    
     public async update(option: string, query): Promise<IUser> {
         return this.userRepository.update(option, query);
     }
@@ -28,7 +32,12 @@ class UserService {
     public async delete(query): Promise<mongoose.UpdateQuery<IUser>> {
         const { id } = query;
         return this.userRepository.delete({
-            id,
+            _id: id,
+        });
+    }
+    public async bulkDelete(query): Promise<mongoose.UpdateQuery<IUser>> {
+        return this.userRepository.bulkDelete({
+            ...query,
         });
     }
 }

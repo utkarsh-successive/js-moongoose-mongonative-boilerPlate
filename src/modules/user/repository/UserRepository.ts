@@ -6,6 +6,7 @@ import {
 } from '../entities';
 import IUserModel from './IUserModel';
 import { userModel } from './UserModel';
+import IQueryDeleteMany from '../entities/IQueryDeleteMany';
 
 class UserRepository extends BaseRepository<IUserModel,
   mongoose.Model<IUserModel>> {
@@ -19,6 +20,10 @@ class UserRepository extends BaseRepository<IUserModel,
 
     public async create(options: IQueryCreate): Promise<IUserModel> {
         return super.create(options);
+    }
+
+    public async bulkInsert(options: IQueryCreate): Promise<IUserModel[]> {
+        return super.insertMany(options);
     }
 
     public async get(query: IQueryGet): Promise<Nullable<IUserModel>> {
@@ -40,5 +45,10 @@ class UserRepository extends BaseRepository<IUserModel,
     public async delete(query: IQueryDelete): Promise<mongoose.UpdateQuery<IUserModel>> {
         return super.delete(query);
     }
+
+    public async bulkDelete(query: IQueryDeleteMany): Promise<mongoose.UpdateQuery<IUserModel>> {
+        return super.deleteMany(query);
+    }
+
 }
 export default UserRepository;

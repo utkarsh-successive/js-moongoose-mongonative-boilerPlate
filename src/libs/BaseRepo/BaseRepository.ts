@@ -3,6 +3,7 @@ import {
     IQueryBaseUpdate, IQueryUpdate,
     IQueryBaseCreate, IQueryBaseDelete,
 } from '../../modules/user/entities';
+import IQueryBaseDeleteMany from '../../modules/user/entities/IQueryBaseDeleteMany'
 // import {
 //     IQueryBaseCreate,
 //     IQueryBaseDelete,
@@ -31,6 +32,13 @@ D extends mongoose.Document, M extends mongoose.Model<D>
         );
         return model.save();
     }
+
+    public async insertMany(
+        options?: any | null,
+      ) {
+        const result = this.ModelType.insertMany(options);
+        return result;
+      }
 
     public async count(query:any): Promise < number > {
         return this.ModelType.count(query);
@@ -61,5 +69,8 @@ D extends mongoose.Document, M extends mongoose.Model<D>
 
     protected async delete(query : IQueryBaseDelete): Promise<mongoose.UpdateQuery<D>> {
         return this.ModelType.deleteOne(query);
+    }
+    protected async deleteMany(query : IQueryBaseDeleteMany): Promise<mongoose.UpdateQuery<D>> {
+        return this.ModelType.deleteMany(query);
     }
 }

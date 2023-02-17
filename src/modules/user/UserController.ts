@@ -53,6 +53,23 @@ class UserController {
         }
     };
 
+    public bulkInsert = async (req, res) => {
+        const { locals: { logger }, services } = res;
+        const { moduleService } = services;
+        try {
+            const result = await moduleService.bulkInsert(
+                req.body,
+            );
+            logger.info({ message: 'Users added successfully', data: result });
+            return res.send(
+                SystemResponse.success('Users added successfully', result),
+            );
+        } catch (err) {
+            logger.error({ message: err.message, option: [{ Error: err.stack }] });
+            return res.send(SystemResponse.internalServerError);
+        }
+    };
+
     // eslint-disable-next-line class-methods-use-this
     public get = async (req, res): Promise<Nullable<IUser>> => {
         const { locals: { logger }, services } = res;
@@ -105,16 +122,24 @@ class UserController {
         const { moduleService } = services;
         try {
             const { id } = req.params;
-            const userInfo = await moduleService.get({
-                id,
-            });
-            if (!userInfo || !Object.keys(userInfo)?.length) {
-                logger.info({ message: 'User not found', data: userInfo });
-                return res.send(SystemResponse.notFoundError('User not found', userInfo));
-            }
             const result = await moduleService.delete({
                 id,
             });
+            logger.info({ message: 'User information deleted' });
+            return res.send(SystemResponse.success('User information deleted', result));
+        } catch (err) {
+            logger.error({ message: err.message, option: [{ Error: err.stack }] });
+            return res.send(SystemResponse.internalServerError);
+        }
+    };
+
+    public bulkDelete = async (req, res) => {
+        console.log('🚀 ~ file: UserController.ts:144 ~ UserController ~ publicbulkDelete ~ req===', req.body, "=== ",req.params);
+        const { locals: { logger }, services } = res;
+        const { moduleService } = services;
+        try {
+            const name = req.params
+            const result = await moduleService.bulkDelete(name);
             logger.info({ message: 'User information deleted' });
             return res.send(SystemResponse.success('User information deleted', result));
         } catch (err) {
