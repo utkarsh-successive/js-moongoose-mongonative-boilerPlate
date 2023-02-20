@@ -18,10 +18,12 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { limit, skip } = req.query;
+            const { limit, skip, } = req.query;
+            const { search } = req.body
             const result = await moduleService.list(
                 limit,
                 skip,
+                search
             );
             if (!result.length) {
                 logger.debug({ message: 'Data not found', data: [] });
@@ -37,7 +39,7 @@ class UserController {
 
     // eslint-disable-next-line class-methods-use-this
     public create = async (req, res) => {
-        const { locals: { logger }, services } = res;
+        const { locals: { logger }, services } = res;   
         const { moduleService } = services;
         try {
             const result = await moduleService.create(
@@ -150,3 +152,7 @@ class UserController {
 }
 
 export default UserController.getInstance();
+function returnNA() {
+    throw new Error('Function not implemented.');
+}
+

@@ -58,13 +58,13 @@ D extends mongoose.Document, M extends mongoose.Model<D>
 
     protected async list(
         query : any = {},
-        projection: any = {},
         options : any = {},
+        projection: any = {},
     ): Promise<D[]> {
         const option = options;
         option.limit = option.limit || 0;
         option.skip = option.skip || 0;
-        return this.ModelType.find(query, projection, option);
+        return this.ModelType.find(query || {}, projection, option);
     }
 
     protected async delete(query : IQueryBaseDelete): Promise<mongoose.UpdateQuery<D>> {

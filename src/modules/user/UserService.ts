@@ -9,8 +9,8 @@ class UserService {
         this.userRepository = new UserRepository();
     }
 
-    public async list(limit: number, skip: number, projection?): Promise<IUser[]> {
-        return this.userRepository.list({ limit, skip }, projection);
+    public async list(limit: number, skip: number, search: any, projection?): Promise<IUser[]> {
+        return this.userRepository.list(search, projection, {limit, skip});
     }
 
     public async create(query): Promise<IUser> {

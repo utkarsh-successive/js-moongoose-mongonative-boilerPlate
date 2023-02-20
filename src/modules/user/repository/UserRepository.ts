@@ -14,8 +14,8 @@ class UserRepository extends BaseRepository<IUserModel,
         super(userModel);
     }
 
-    public async list(options: IQueryList, projection?): Promise<IUserModel[]> {
-        return super.list({}, projection, options);
+    public async list(search, options: IQueryList, projection?): Promise<IUserModel[]> {
+        return super.list(search, projection, options);
     }
 
     public async create(options: IQueryCreate): Promise<IUserModel> {
