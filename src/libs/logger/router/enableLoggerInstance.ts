@@ -4,7 +4,6 @@ const enableLoggerInstance = (logInstance, config) => (req, res, next) => {
         ip: req.headers.host,
         method: req.method,
     };
-    // eslint-disable-next-line array-callback-return
     config.map((x) => {
         response[x.key] = req[x.location][x.key];
     });

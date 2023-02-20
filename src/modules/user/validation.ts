@@ -1,49 +1,32 @@
-import { isNumberValid, isValidObjectId } from '../../libs/MongoUtils';
+import { isValidObjectId } from '../../libs/MongoUtils';
 
 export default Object.freeze({
     create: {
-        name: {
+        first_name: {
+            errorMessage: 'First Name is wrong!',
+            in: ['body'],
             isLength: {
-                errorMessage: 'name should be at least 2 chars long',
+                errorMessage: 'First Name should be at least 2 chars long',
                 options: { min: 2 },
             },
         },
-        email: {
-            isEmail: {
-                errorMessage: 'Please provide valid email',
+        last_name: {
+            errorMessage: 'Last Name is wrong!',
+            in: ['body'],
+            isLength: {
+                errorMessage: 'Last Name should be at least 2 chars long',
+                options: { min: 2 },
             },
-        },
-        age: {
-            custom: {
-                options: (value: number) => isNumberValid(value, 'age'),
-            },
-        },
-        'address.flat_no': {
-            custom: {
-                options: (value: number) => {
-                    if (typeof value !== 'number' || value <= 0) {
-                        throw new Error('flat no. should be greater than 0');
-                    }
-                    return true;
-                },
-            },
-        },
-        'address.state': {
-            notEmpty: true,
-            errorMessage: 'state cannot be empty',
-        },
-        'address.city': {
-            notEmpty: true,
-            errorMessage: 'city cannot be empty',
         },
     },
+
     delete: {
         id: {
             custom: {
                 options: (id: string) => isValidObjectId(id),
             },
             errorMessage: 'Bad ID format',
-            in: ['param'],
+            in: ['body'],
         },
     },
 
@@ -56,7 +39,6 @@ export default Object.freeze({
             in: ['params'],
         },
     },
-
     list: {
         limit: {
             errorMessage: 'limit is wrong',
@@ -80,49 +62,39 @@ export default Object.freeze({
                 options: (id: string) => isValidObjectId(id),
             },
             errorMessage: 'Bad ID format',
-            in: ['params'],
+            in: ['body'],
         },
-        name: {
-            isLength: {
-                errorMessage: 'name should be at least 2 chars long',
-                options: { min: 2 },
-            },
-            optional: true,
+        first_name: {
+            errorMessage: 'First Name is wrong!',
+            in: ['body'],
         },
+        last_name: {
+            errorMessage: 'Last Name is wrong!',
+            in: ['body'],
+        },
+
+    },
+
+    registration: {
         email: {
             isEmail: {
-                errorMessage: 'Please provide valid email',
+                bail: true,
             },
-            optional: true,
-        },
-        age: {
-            custom: {
-                options: (value: number) => isNumberValid(value, 'age'),
+            in: ['body'],
+            errorMessage: 'Please enter valid Email',
+            isLength: {
+                errorMessage: 'Character should be 1',
+                options: { min: 1 },
             },
-            optional: true,
         },
-        'address.flat_no': {
-            custom: {
-                options: (value: number) => {
-                    if (typeof value !== 'number' || value <= 0) {
-                        throw new Error('flat no. should be greater than 0');
-                    }
-                    return true;
-                },
+        password: {
+            errorMessage: 'Last Name is wrong!',
+            in: ['body'],
+            isLength: {
+                errorMessage: 'Last Name should be at least 2 chars long',
+                options: { min: 2 },
             },
-            optional: true,
         },
-        'address.state': {
-            notEmpty: true,
-            errorMessage: 'state cannot be empty',
-            optional: true,
-        },
-        'address.city': {
-            notEmpty: true,
-            errorMessage: 'city cannot be empty',
-            optional: true,
-        },
-        optional: true,
     },
 
 });

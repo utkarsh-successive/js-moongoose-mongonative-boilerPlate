@@ -7,21 +7,28 @@ import { errorHandler } from './libs/response-handler';
 import { createLogger, enableLoggerInstance, enableDebugger } from './libs/logger';
 import loggerConfig from './config/LoggerConfig';
 import { EnvVars } from './config/constants';
-import Database from './libs/database/Database';
+// import Database from './libs/database/Database';
 import notFoundRoute from './libs/routes';
 import Swagger from './libs/documentation/swagger/Swagger';
 import router from './router';
-
+import CacheManager from './libs/cache/CacheManager';
+import Database from './libs/database/Database';
+// import BaseRepository from './libs/BaseRepo/BaseRepository';
 // To Do Demo description
-
 export default class Server {
     private app: express.Express;
 
     private logInstance;
 
+    private db: Database;
+
+    // private baseRepo: BaseRepository;
+
     // eslint-disable-next-line no-unused-vars
     constructor(private config) {
         this.app = express();
+        this.db = new Database();
+        // this.baseRepo = new BaseRepository('user');
     }
 
     get application() {
@@ -69,11 +76,11 @@ export default class Server {
     public async run() {
     // open Database & listen on port config.port
         const {
-            port, mongoUri, env,
+            port, env,
         } = this.config;
         try {
             // CacheManager.open();
-            await Database.open(mongoUri);
+            await this.db.connect();
             this.app.listen(port);
             // eslint-disable-next-line no-console
             console.log(`|| App is running at port '${port}' in '${env}' mode ||`);

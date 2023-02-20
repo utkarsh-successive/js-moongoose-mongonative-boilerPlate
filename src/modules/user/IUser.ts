@@ -1,12 +1,9 @@
 import IEntity from '../../libs/entities/IEntity';
 
 interface IUser extends IEntity {
-  name: string;
-  empId: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  mobile_no: number;
-  address: object;
-  age: number;
 }
 
 export default IUser;

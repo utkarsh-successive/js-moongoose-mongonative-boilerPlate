@@ -1,3 +1,3 @@
-import UserRoutesController from './router';
+import ControllerRoutes from './router';
 
-export default UserRoutesController;
+export default ControllerRoutes;

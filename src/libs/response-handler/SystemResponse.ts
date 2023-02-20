@@ -111,8 +111,7 @@ class SystemResponse {
    * @returns {Object} Formatted object having message, status and error.
    */
     public static badRequestError(message, error) {
-        return SystemResponse.getInstance()
-            .getErrorResponse(message, error, StatusCodes.BAD_REQUEST);
+        return SystemResponse.getInstance().getErrorResponse(message, error, StatusCodes.BAD_REQUEST);
     }
 
     /**
@@ -121,8 +120,7 @@ class SystemResponse {
    * @returns {Object} Formatted object having message, status and error.
    */
     public static unauthorizedError(message, error) {
-        return SystemResponse.getInstance()
-            .getErrorResponse(message, error, StatusCodes.UNAUTHORIZED);
+        return SystemResponse.getInstance().getErrorResponse(message, error, StatusCodes.UNAUTHORIZED);
     }
 
     /**
@@ -150,8 +148,7 @@ class SystemResponse {
    * @returns {Object} Formatted object having message, status and error.
    */
     public static notFoundError(message, error) {
-        return SystemResponse.getInstance()
-            .getErrorResponse(message, error, StatusCodes.NOT_FOUND);
+        return SystemResponse.getInstance().getErrorResponse(message, error, StatusCodes.NOT_FOUND);
     }
 
     /**
@@ -314,8 +311,7 @@ class SystemResponse {
    * @returns {Object} Formatted object having message, status and error.
    */
     public static badGatewayError(message, error) {
-        return SystemResponse.getInstance()
-            .getErrorResponse(message, error, StatusCodes.BAD_GATEWAY);
+        return SystemResponse.getInstance().getErrorResponse(message, error, StatusCodes.BAD_GATEWAY);
     }
 
     /**
@@ -356,8 +352,7 @@ class SystemResponse {
    * @property {Int} code Error Response Code as per error type.
    * @returns {Object} Formatted object having message custom or as per code, status and error.
    */
-    // eslint-disable-next-line class-methods-use-this
-    private getErrorResponse(message, error, code) {
+    public getErrorResponse(message, error, code) {
         return {
             error: error || {},
             message: message || CodeMessage[code],
@@ -371,7 +366,6 @@ class SystemResponse {
    * @property {Int} code  Response Code as per informational type.
    * @returns {Object} Formatted object having message, status.
    */
-    // eslint-disable-next-line class-methods-use-this
     public getResponse(message, code) {
         return {
             message: message || CodeMessage[code],

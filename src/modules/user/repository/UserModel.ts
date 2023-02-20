@@ -4,7 +4,7 @@ import IUserModel from './IUserModel';
 import UserSchema from './UserSchema';
 
 export const userSchema = new UserSchema({
-    collection: 'User-Management',
+    collection: 'Users',
     toJSON: {
         transform: (doc, ret) => {
             const res = ret;
@@ -21,6 +21,6 @@ export const userSchema = new UserSchema({
  */
 
 export const userModel: mongoose.Model<IUserModel> = mongoose.model<IUserModel>(
-    'User-Management',
+    'User',
     userSchema,
 );

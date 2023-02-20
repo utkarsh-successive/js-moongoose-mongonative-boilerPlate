@@ -13,6 +13,7 @@ export const configurations: IConfig = Object.freeze({
     corsOrigin: process.env.CORS_ORIGIN,
     env: process.env.NODE_ENV,
     mongo: process.env.MONGO_URL,
+    databaseName: process.env.DB_NAME,
     mongooseDebug: isMongooseDebug,
     port: process.env.PORT,
     redisHost: process.env.REDIS_HOST,

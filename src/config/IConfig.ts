@@ -12,4 +12,5 @@ export interface IConfig extends ISwaggerDefinition {
   redisPort: number;
   secret: string;
   notificationServiceUrl: string;
+  databaseName: string;
 }

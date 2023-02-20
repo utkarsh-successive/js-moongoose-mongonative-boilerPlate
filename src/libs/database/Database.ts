@@ -1,37 +1,59 @@
-import * as mongoose from 'mongoose';
-import configurations from '../../config/configuration';
+import { MongoClient } from 'mongodb';
+import { IConfig } from '../../config/IConfig';
+import config from '../../config/configuration';
 
-export interface IDatabaseConfig {
-  mongoUri: string;
-}
+// const { MongoClient } = require('mongodb');
+// Connection URI
+// Create a new MongoClient
+// const client = new MongoClient(configurations.mongo);
+// async function connectDatabase() {
+//     try {
+//     // Connect the client to the server (optional starting in v4.7)
+//         await client.connect();
+//         // Establish and verify connection
+//         await client.db('admin').command({ ping: 1 });
+//         console.log('Connected successfully to Database');
+//     } catch (error) {
+//         // Throw Error when unable to connect to DB
+//         throw new Error(`Error while connecting to Database ${error}`);
+//     } finally {
+//     // Ensures that the client will close when you finish/error
+//         await client.close();
+//     }
+// }
 
-export default class Database {
-    public static open(mongoUri) {
-        return new Promise((resolve, reject) => {
-            const options = {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                autoIndex: false,
-            };
-            let connectionString = null;
-            if (mongoUri) {
-                connectionString = mongoUri;
-            } else {
-                connectionString = configurations.mongo;
-            }
-            mongoose.connect(connectionString, options, async (err) => {
-                if (err) {
-                    return reject(err);
-                }
-                return resolve('Successfully connected to database');
-            });
-            mongoose.connection.on('error', () => {
-                throw new Error(`unable to connect to database: ${mongoUri}`);
-            });
-        });
+// export default connectDatabase;
+
+class Database {
+    private client: MongoClient;
+
+    private dbName: string;
+
+    constructor() {
+        const { mongo, databaseName }: IConfig = config;
+        this.client = new MongoClient(mongo);
+        this.dbName = databaseName;
     }
 
-    public static close() {
-        mongoose.disconnect();
+    public async connect() {
+        try {
+            // Connect the client to the server (optional starting in v4.7)
+            await this.client.connect();
+            // Establish and verify connection
+            await this.client.db('admin').command({ ping: 1 });
+            console.log('Connected successfully to Database');
+        } catch (error) {
+            // Throw Error when unable to connect to DB
+            throw new Error(`Error while connecting to Database ${error}`);
+        } finally {
+            // Ensures that the client will close when you finish/error
+            await this.client.close();
+        }
+    }
+
+    public async getDB() {
+        return this.client.db(this.dbName);
     }
 }
+
+export default Database;

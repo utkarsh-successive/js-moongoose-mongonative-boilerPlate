@@ -1,12 +1,10 @@
 import IQueryBaseCreate from './IQueryBaseCreate';
 
 interface ICreate extends IQueryBaseCreate {
-  name?: string;
+  first_name?: string;
+  last_name?: string;
   email?: string;
-  mobile_no?: number;
-  address?: object;
-  age?: number;
-  empId?: string;
- }
+  password?: string;
+}
 
 export default ICreate;

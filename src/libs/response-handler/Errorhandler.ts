@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 const Errorhandler = (isLogging) => (err, req, res, next):any => {
     if (res.headersSent) {
         return next(err);
