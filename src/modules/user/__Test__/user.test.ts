@@ -12,6 +12,7 @@ describe('For user endpoints', () => {
     let ID;
     let ID2;
     let id;
+    let name;
 
     beforeAll(async () => {
         const app = await server.bootstrap();
@@ -30,10 +31,10 @@ describe('For user endpoints', () => {
     describe('Positive Test cases', () => {
         test('create user', async () => {
             const newUser = {
-                name:"utkarsh Tomer",
-                email: "utkarsh@gmail.com",
-                mobile_no: "8859755869",
-               address: {"flat_no": 1, "city": "sikandarabad", "state": "uttar Pradesh "},
+                name:"Test",
+                email: "test@gmail.com",
+                mobile_no: "1234567890",
+               address: {"flat_no": 1, "city": "test", "state": "mockTest"},
                age: 25
             };
             const res = await req
@@ -58,8 +59,8 @@ describe('For user endpoints', () => {
 
         test('update user', async () => {
             const updateUser = {
-                    name: "siddhant Garg",
-                    email: "siddhant.garg@gmail.com"
+                    name: "Mockuser",
+                    email: "mockuser@gmail.com"
             };
             const res = await req
                 .put(`/api/user/${ID}`)
@@ -73,6 +74,37 @@ describe('For user endpoints', () => {
             console.log('id2delete', ID2);
             const res = await req
                 .delete(`/api/user/${ID2}`);
+            expect(res.status).toBe(200);
+            expect(res.body.message).toBe('User information deleted');
+        });
+    });
+    describe('Positive Bulk Test cases', () => {
+        test('create Bulk user', async () => {
+            const newUser = [{
+                name:"Test",
+                email: "test@gmail.com",
+                mobile_no: "1234567890",
+               address: {"flat_no": 1, "city": "test", "state": "mockTest"},
+               age: 25
+            },
+            {
+                name:"Test2",
+                email: "test2@gmail.com",
+                mobile_no: "1234567890",
+               address: {"flat_no": 2, "city": "test2", "state": "mockTest2"},
+               age: 25
+            }];
+            const res = await req
+                .post('/api/user/bulkInsert')
+                .send(newUser);
+            expect(res.status).toBe(200);
+            console.log(res.body.data[0].name, "objectid");
+            name =res.body.data[0].name;
+        });
+
+        test('delete Bulk user', async () => {
+            const res = await req
+                .delete(`/api/user/bulk/${name}`);
             expect(res.status).toBe(200);
             expect(res.body.message).toBe('User information deleted');
         });
@@ -110,6 +142,23 @@ describe('For user endpoints', () => {
         test('negative delete user', async () => {
             const res = await req
                 .delete(`/api/user/`);
+            expect(res.status).toBe(404);
+        });
+    });
+    describe.skip('Negative Bulk Test Cases', () => {
+        test('negative Bulk user create case', async () => {
+            const newUser = [{}];
+            const res = await req
+                .post('/api/user/bulkInsert')
+                .send(newUser);
+            expect(res.status).toBe(400);
+        });
+
+        //* *** Test Case for DELETE API to delete the user ****/
+
+        test('negative delete user', async () => {
+            const res = await req
+                .delete(`/api//user/bulk/name`);
             expect(res.status).toBe(404);
         });
     });

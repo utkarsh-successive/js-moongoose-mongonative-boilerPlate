@@ -124,5 +124,44 @@ export default Object.freeze({
         },
         optional: true,
     },
+    bulkInsert: [
+        {
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+        },
+        email: {
+            isEmail: {
+                errorMessage: 'Please provide valid email',
+            },
+        },
+        age: {
+            custom: {
+                options: (value: number) => isNumberValid(value, 'age'),
+            },
+        },
+        'address.flat_no': {
+            custom: {
+                options: (value: number) => {
+                    if (typeof value !== 'number' || value <= 0) {
+                        throw new Error('flat no. should be greater than 0');
+                    }
+                    return true;
+                },
+            },
+        },
+        'address.state': {
+            notEmpty: true,
+            errorMessage: 'state cannot be empty',
+        },
+        'address.city': {
+            notEmpty: true,
+            errorMessage: 'city cannot be empty',
+        },
+    
+    }
+],
 
 });

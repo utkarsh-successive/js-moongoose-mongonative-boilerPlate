@@ -229,9 +229,63 @@ router.route('/:id')
         validationHandler(validation.delete as any),
         controller.delete,
     );
+/**
+ * @swagger
+ * /api/user/bulkInsert:
+ *   post:
+ *        description: Added a multiple new Record in database
+ *        tags: [User]
+ *        requestBody:
+ *              description: Enter name, email, mobile_no, age, address .
+ *              required: true
+ *              content:
+ *                 application/json:
+ *                    schema:
+ *                        type: object
+ *                        required:
+ *                          -name
+ *                          -description
+ *                        properties:
+ *                            name:
+ *                               type: string
+ *                               example: "xyz"
+ *                            email:
+ *                               type: string
+ *                               example: "xyz@gmail.com"
+ *                            mobile_no:
+ *                               type: string
+ *                               example: "1234567890"
+ *                            age:
+ *                               type: number
+ *                               example: 20
+ *                            address:
+ *                               type: object
+ *                               $ref: '#/definitions/AddressSchema'
+ *        responses:
+ *                  200:
+ *                      description: Record added succesfully
+ */
+router.route('/bulkInsert').post(
+    validationHandler(validation.bulkInsert as any),
+    controller.bulkInsert)
 
-router.route('/bulkInsert').post(controller.bulkInsert)
-
+/**
+ * @swagger
+ * /api/user/bulk/name:
+ *   delete:
+ *        description: Delete multiple existing record from database
+ *        tags: [User]
+ *        parameters:
+ *        - in: path
+ *          name: name
+ *          schema:
+ *           type: string
+ *           required: true
+ *           description: name of the user
+ *        responses:
+ *                  200:
+ *                      description: User information deleted
+ */  
 router.route('/bulk/:name').delete(controller.bulkDelete)
 
 export default router;
