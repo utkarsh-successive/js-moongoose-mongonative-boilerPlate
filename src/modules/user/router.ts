@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
-import { Router } from 'express';
-import validationHandler from '../../libs/validationHandler';
-import controller from './UserController';
-import validation from './validation';
+import { Router } from "express";
+import validationHandler from "../../libs/validationHandler";
+import controller from "./UserController";
+import validation from "./validation";
 
 const router = Router();
 /**
@@ -21,7 +21,7 @@ const router = Router();
  *             age:
  *                  type: string
  *             address:
- *                  type: object 
+ *                  type: object
  *             createdAt:
  *                  type: string
  *             deletedAt:
@@ -37,7 +37,24 @@ const router = Router();
  *             state:
  *                  type: string
  *                  example: "xyz"
- *                
+ *   BulkInsert:
+ *        properties:
+ *             name:        
+ *                  type: string                        
+ *                  example: "xyz"
+ *             email:
+ *                  type: string
+ *                  example: "xyz@gmail.com"
+ *             mobile_no:
+ *                  type: string
+ *                  example: "1234567890"
+ *             age:
+ *                  type: number
+ *                  example: 20
+ *             address:
+ *                  type: object
+ *                  $ref: '#/definitions/AddressSchema'
+ *
  *   UserList:
  *        type: array
  *        item:
@@ -70,7 +87,7 @@ const router = Router();
  * @swagger
  * /api/user/:
  *   get:
- *        tags: 
+ *        tags:
  *           - User
  *        description: Returns all the User list records
  *        parameters:
@@ -85,11 +102,9 @@ const router = Router();
  *                       $ref: '#/definitions/UserSchema'
  */
 
-router.route('/')
-    .get(
-        validationHandler(validation.list as any),
-        controller.list,
-    );
+router
+    .route("/")
+    .get(validationHandler(validation.list as any), controller.list);
 /**
  * @swagger
  * /api/user/{id}:
@@ -109,12 +124,9 @@ router.route('/')
  *                  schema:
  *                       $ref: '#/definitions/UserByIdGetResponse'
  */
-router.route('/:id')
-    .get(
-        validationHandler(validation.get as any),
-        controller.get,
-
-    );
+router
+    .route("/:id")
+    .get(validationHandler(validation.get as any), controller.get);
 
 /**
  * @swagger
@@ -128,7 +140,7 @@ router.route('/:id')
  *              content:
  *                 application/json:
  *                    schema:
- *                        type: object
+ *                        type: array
  *                        required:
  *                          -name
  *                          -description
@@ -152,12 +164,10 @@ router.route('/:id')
  *                  200:
  *                      description: Record added succesfully
  */
-router.route('/')
-    .post(
-        validationHandler(validation.create as any),
-        controller.create,
-    );
-    /**
+router
+    .route("/")
+    .post(validationHandler(validation.create as any), controller.create);
+/**
  * @swagger
  * /api/user/{id}:
  *   put:
@@ -202,11 +212,9 @@ router.route('/')
  *           description: Userinfo update successfully
  */
 
-router.route('/:id')
-    .put(
-        validationHandler(validation.update as any),
-        controller.update,
-    );
+router
+    .route("/:id")
+    .put(validationHandler(validation.update as any), controller.update);
 /**
  * @swagger
  * /api/user/{id}:
@@ -223,12 +231,10 @@ router.route('/:id')
  *        responses:
  *                  200:
  *                      description: Record deleted succesfully
- */    
-router.route('/:id')
-    .delete(
-        validationHandler(validation.delete as any),
-        controller.delete,
-    );
+ */
+router
+    .route("/:id")
+    .delete(validationHandler(validation.delete as any), controller.delete);
 /**
  * @swagger
  * /api/user/bulkInsert:
@@ -241,33 +247,24 @@ router.route('/:id')
  *              content:
  *                 application/json:
  *                    schema:
- *                        type: object
+ *                        type: array
+ *                        items:
+ *                          $ref: '#/definitions/BulkInsert'
  *                        required:
  *                          -name
  *                          -description
  *                        properties:
- *                            name:
- *                               type: string
- *                               example: "xyz"
- *                            email:
- *                               type: string
- *                               example: "xyz@gmail.com"
- *                            mobile_no:
- *                               type: string
- *                               example: "1234567890"
- *                            age:
- *                               type: number
- *                               example: 20
- *                            address:
- *                               type: object
- *                               $ref: '#/definitions/AddressSchema'
+ *
  *        responses:
  *                  200:
  *                      description: Record added succesfully
  */
-router.route('/bulkInsert').post(
-    validationHandler(validation.bulkInsert as any),
-    controller.bulkInsert)
+router
+    .route("/bulkInsert")
+    .post(
+        validationHandler(validation.bulkInsert as any),
+        controller.bulkInsert
+    );
 
 /**
  * @swagger
@@ -285,7 +282,7 @@ router.route('/bulkInsert').post(
  *        responses:
  *                  200:
  *                      description: User information deleted
- */  
-router.route('/bulk/:name').delete(controller.bulkDelete)
+ */
+router.route("/bulk/:name").delete(controller.bulkDelete);
 
 export default router;
