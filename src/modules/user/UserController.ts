@@ -64,6 +64,24 @@ class UserController {
         }
     };
 
+    public bulkInsert = async (req, res) => {
+        const { locals: { logger }, services } = res;
+        const { moduleService } = services;
+        try {
+            const {
+                email, password, first_name: firstName, last_name: lastName,
+            } = req.body;
+            // const hashPassword = await bcrypt.hash(password, constants.BCRYPT_SALT_ROUNDS);
+            const result = await moduleService.bulkInsert(req.body);
+            logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
+            return res.send(SystemResponse.success('User created', result));
+        } catch (err) {
+            logger.error({ message: err.message, option: [{ Error: err.stack }] });
+            return res.send(SystemResponse.internalServerError('Failed', err));
+        }
+    };
+
+
     // eslint-disable-next-line class-methods-use-this
     public get = async (req, res): Promise<Nullable<IUser>> => {
         const { locals: { logger }, services } = res;
@@ -99,10 +117,9 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { id } = req.body;
-            const result = await moduleService.delete({
-                id,
-            });
+            const result = await moduleService.delete(
+                req.params,
+            );
             logger.info({ messgae: 'User deleted', data: [], option: [] });
             return res.send(SystemResponse.success('User deleted', result));
         } catch (err) {

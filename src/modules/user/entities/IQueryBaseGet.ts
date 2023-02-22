@@ -1,7 +1,7 @@
 import IQueryEntity from './IQueryEntity';
 
 interface IQueryBaseGet extends IQueryEntity {
-  id: string;
+  _id: string;
 }
 
 export default IQueryBaseGet;

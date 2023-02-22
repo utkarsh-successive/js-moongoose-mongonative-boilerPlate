@@ -1,6 +1,6 @@
-import * as mongoose from 'mongoose';
-import IUser from './IUser';
-import UserRepository from './repository/UserRepository';
+import { ObjectId } from "mongodb";
+import IUser from "./IUser";
+import UserRepository from "./repository/UserRepository";
 
 class UserService {
     private userRepository: UserRepository;
@@ -11,6 +11,15 @@ class UserService {
 
     public async create(options: IUser) {
         return this.userRepository.create(options);
+    }
+
+    public async bulkInsert(options): Promise<IUser[]> {
+        return this.userRepository.bulkInsert(options);
+    }
+
+    public async get(query): Promise<IUser> {
+        const {id} = query
+        return this.userRepository.get({ _id: new ObjectId(id)});
     }
     // public async list(limit: number, skip: number, projection?): Promise<IUser[]> {
     //     return this.userRepository.list({ limit, skip }, projection);
@@ -29,12 +38,12 @@ class UserService {
     //     return this.userRepository.update(option, query);
     // }
 
-    // public async delete(query): Promise<mongoose.UpdateQuery<IUser>> {
-    //     const { id } = query;
-    //     return this.userRepository.delete({
-    //         id,
-    //     });
-    // }
+    public async delete(options): Promise<any> {
+        const { id } = options;
+        return this.userRepository.delete(
+           { _id: new ObjectId(id)}
+        );
+    }
 }
 
 export default UserService;

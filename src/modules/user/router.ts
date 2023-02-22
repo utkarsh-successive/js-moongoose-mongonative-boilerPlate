@@ -147,8 +147,8 @@ router.route('/')
  */
 router.route('/:id')
     .get(
-        validationHandler(validation.get as any),
-        authMiddleWare,
+        // validationHandler(validation.get as any),
+        // authMiddleWare,
         controller.get,
 
     );
@@ -210,10 +210,10 @@ router.route('/')
  *                  200:
  *                      description: User deleted succesfully
  */
-router.route('/')
+router.route('/:id')
     .delete(
-        validationHandler(validation.delete as any),
-        authMiddleWare,
+        // validationHandler(validation.delete as any),
+        // authMiddleWare,
         controller.delete,
     );
 /**
@@ -277,6 +277,12 @@ router.route('/registration')
     .post(
         validationHandler(validation.registration as any),
         controller.registration,
+    );
+
+router.route('/bulkInsert')
+    .post(
+        // validationHandler(validation.registration as any),
+        controller.bulkInsert,
     );
 
 export default router;
