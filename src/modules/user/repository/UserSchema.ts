@@ -20,7 +20,7 @@ export default class UserSchema extends BaseSchema {
             },
             email: {
                 type: String,
-                isUnique: true,
+                unique: true,
             },
             mobile_no: {
                 type: String,

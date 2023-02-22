@@ -1,5 +1,5 @@
-# Use node version 14.x
-FROM node:14-alpine
+# Use node version 16.x
+FROM node:16-alpine
 
 # create app directory in container
 RUN mkdir -p /app

@@ -37,6 +37,14 @@ const router = Router();
  *             state:
  *                  type: string
  *                  example: "xyz"
+ *   ListSearchSchema:
+ *        properties:
+ *             name:
+ *                  type: string
+ *                  example: "xyz"
+ *             email:
+ *                   type: string
+ *                   example: "xyz@gmail.com"
  *   BulkInsert:
  *        properties:
  *             name:        
@@ -95,6 +103,11 @@ const router = Router();
  *             name: limit
  *           - in: query
  *             name: skip
+ *           - in: body
+ *             name: search
+ *             schema:
+ *              type: object
+ *              $ref:  '#/definitions/ListSearchSchema'
  *        responses :
  *             200:
  *                  description: Array of User List

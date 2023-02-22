@@ -3,10 +3,10 @@ export const SWAGGER_URL = '/api-docs';
 export const API_PREFIX = '/api';
 
 export const ABOUT = {
-    description: 'MongoDB ORM VS ODM API with Swagger',
+    description: 'Mongoose API with Swagger',
     in: 'Headers',
     name: 'Authorization',
-    title: 'Moongo-Moongo NAtive Driver-Boilerplate',
+    title: 'Mongoose Boilerplate',
     type: 'apiKey',
 };
 
@@ -23,13 +23,3 @@ export const levels = {
     DEBUG: 'debug',
 };
 
-export const NotificationService = {
-    requestType: 'post',
-    route: '/notification',
-    templateId: {
-        registration: 'registration',
-        forgotPassword: 'forgotPassword',
-    },
-};
-
-export const BCRYPT_SALT_ROUNDS: number = 6;
