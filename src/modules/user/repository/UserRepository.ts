@@ -42,6 +42,13 @@ class UserRepository extends BaseRepository<IUserModel,
         return super.update(options, itemsToUpdate);
     }
 
+    public async bulkUpdate(
+        query,
+        itemsToUpdate: IQueryUpdate,
+    ): Promise<mongoose.UpdateQuery<IUserModel[]>> {
+        return super.bulkUpdate(query, itemsToUpdate);
+    }
+
     public async delete(query: IQueryDelete): Promise<mongoose.UpdateQuery<IUserModel>> {
         return super.delete(query);
     }
@@ -49,6 +56,5 @@ class UserRepository extends BaseRepository<IUserModel,
     public async bulkDelete(query: IQueryDeleteMany): Promise<mongoose.UpdateQuery<IUserModel>> {
         return super.deleteMany(query);
     }
-
 }
 export default UserRepository;

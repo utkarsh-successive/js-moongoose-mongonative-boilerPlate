@@ -1,172 +1,234 @@
 /* eslint-disable max-len */
-import { Router } from "express";
-import validationHandler from "../../libs/validationHandler";
-import controller from "./UserController";
-import validation from "./validation";
+import { Router } from 'express';
+import validationHandler from '../../libs/validationHandler';
+import controller from './UserController';
+import validation from './validation';
 
 const router = Router();
+
 /**
  * @swagger
- * definitions:
- *   UserSchema:
- *        properties:
- *             id:
- *                  type: string
- *             name:
- *                  type: string
- *             email:
- *                  type: string
- *             mobile_no:
- *                  type: string
- *             age:
- *                  type: string
- *             address:
- *                  type: object
- *             createdAt:
- *                  type: string
- *             deletedAt:
- *                  type: string
- *   AddressSchema:
- *        properties:
- *             flat_no:
- *                  type: number
- *                  example: 2
- *             city:
- *                  type: string
- *                  example: "xyz"
- *             state:
- *                  type: string
- *                  example: "xyz"
- *   BulkInsert:
- *        properties:
- *             name:        
- *                  type: string                        
- *                  example: "xyz"
- *             email:
- *                  type: string
- *                  example: "xyz@gmail.com"
- *             mobile_no:
- *                  type: string
- *                  example: "1234567890"
- *             age:
- *                  type: number
- *                  example: 20
- *             address:
- *                  type: object
- *                  $ref: '#/definitions/AddressSchema'
- *
- *   UserList:
- *        type: array
- *        item:
- *        $ref: '#/definitions/UserSchema'
- *   user:
- *        type: array
- *        $ref: '#/definitions/UserSchema'
- *   UserListResponse:
- *        properties:
- *             message:
- *                  type: string
- *                  example: Success
- *             status:
- *                  type: integer
- *                  example: 200
- *             data:
- *                  $ref: '#/definitions/User'
- *   UserByIdGetResponse:
- *        properties:
- *             message:
- *                  type: string
- *                  example: Success
- *             status:
- *                  type: integer
- *                  example: 200
- *             data:
- *                  $ref: '#/definitions/user'
- */
-/**
- * @swagger
- * /api/user/:
+ * tags:
+ *   name: User
+ *   description: The User info API
+ * /api/user:
  *   get:
- *        tags:
- *           - User
- *        description: Returns all the User list records
- *        parameters:
- *           - in: query
- *             name: limit
- *           - in: query
- *             name: skip
- *        responses :
- *             200:
- *                  description: Array of User List
- *                  schema:
- *                       $ref: '#/definitions/UserSchema'
+ *     summary: List of all user records
+ *     tags: [User]
+ *     requestBody:
+ *     parameters:
+ *       - in: query
+ *         type: number
+ *         name: limit
+ *         example: 10
+ *       - in: query
+ *         name: skip
+ *         example: 10
+ *         type: number
+ *       - in: body
+ *         name: searchOptions
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               description: name of the user
+ *               example: siddhant
+ *     responses:
+ *       200:
+ *         description: List of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserListResponse'
+ *       404:
+ *         description: Users not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Users not found
+ *                   description: response message
+ *                 status:
+ *                   type: number
+ *                   example: 404
+ *                   description: status code
+ *                 error:
+ *                   type: array
+ *                   example: []
  */
 
 router
-    .route("/")
+    .route('/')
     .get(validationHandler(validation.list as any), controller.list);
 /**
  * @swagger
  * /api/user/{id}:
  *   get:
- *        tags: [User]
- *        description: Returns specific user
- *        parameters:
- *           - in: path
- *             name: id
+ *     summary: Returns specific user
+ *     tags: [User]
+ *     requestBody:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         description: _id of the user
+ *         required: true
+ *         example: 63f326464ad394f1c4dbb47f
+ *     responses:
+ *       200:
+ *         description: Fetch user information
+ *         content:
+ *           application/json:
  *             schema:
- *              type: string
- *              required: true
- *              description: originalId of the user
- *        responses :
- *             200:
- *                  description: Array of user List
- *                  schema:
- *                       $ref: '#/definitions/UserByIdGetResponse'
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Fetch user successfully
+ *                   description: response message
+ *                 status:
+ *                   type: number
+ *                   example: 200
+ *                   description: status code
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: response message
+ *                   example: User not found
+ *                 status:
+ *                   type: string
+ *                   example: 404
+ *                   description: status code
+ *                 error:
+ *                   type: object
+ *                   example: {}
  */
 router
-    .route("/:id")
+    .route('/:id')
     .get(validationHandler(validation.get as any), controller.get);
 
 /**
  * @swagger
  * /api/user:
  *   post:
- *        description: Added new Record in database
- *        tags: [User]
- *        requestBody:
- *              description: Enter name, email, mobile_no, age, address .
- *              required: true
- *              content:
- *                 application/json:
- *                    schema:
- *                        type: array
- *                        required:
- *                          -name
- *                          -description
- *                        properties:
- *                            name:
- *                               type: string
- *                               example: "xyz"
- *                            email:
- *                               type: string
- *                               example: "xyz@gmail.com"
- *                            mobile_no:
- *                               type: string
- *                               example: "1234567890"
- *                            age:
- *                               type: number
- *                               example: 20
- *                            address:
- *                               type: object
- *                               $ref: '#/definitions/AddressSchema'
- *        responses:
- *                  200:
- *                      description: Record added succesfully
+ *     summary: create new record for user
+ *     tags: [User]
+ *     requestbody:
+ *     parameters:
+ *       - in: body
+ *         name: userDetails
+ *         description: create new record for user
+ *         required: true
+ *         schema:
+ *           required:
+ *             - name
+ *             - email
+ *             - address
+ *             - mobile_no
+ *             - age
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               description: name of the user
+ *               example: Siddhant Jain
+ *             email:
+ *               type: string
+ *               description: email of the user
+ *               example: siddhant123@gmail.com
+ *             age:
+ *               type: number
+ *               description: age of the user
+ *               example: 24
+ *             address:
+ *               type: object
+ *               $ref: '#/components/schemas/AddressSchema'
+ *             mobile_no:
+ *               type: string
+ *               description: mobile no. of the user
+ *               example: +91-9866737834
+ *     responses:
+ *       200:
+ *         description: Fetch Created User Info
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Fetch user successfully
+ *                   description: response message
+ *                 status:
+ *                   type: number
+ *                   example: 200
+ *                   description: status code
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
  */
 router
-    .route("/")
+    .route('/')
     .post(validationHandler(validation.create as any), controller.create);
+
+/**
+ * @swagger
+ * /api/user/bulk-update:
+ *   put:
+ *        description: Update multiple existing record from database
+ *        tags: [User]
+ *        parameters:
+ *        - in: path
+ *          name: name
+ *          schema:
+ *           type: string
+ *           required: true
+ *           description: name of the user
+ *        responses:
+ *                  200:
+ *                      description: User information updated
+ */
+router
+    .route('/bulk-update')
+    .put(
+        validationHandler(validation.bulkUpdate as any),
+        controller.bulkUpdate,
+    );
+
+/**
+* @swagger
+* /api/user/bulk-delete:
+*   delete:
+*        description: Delete multiple existing record from database
+*        tags: [User]
+*        parameters:
+*        - in: path
+*          name: name
+*          schema:
+*           type: string
+*           required: true
+*           description: name of the user
+*        responses:
+*                  200:
+*                      description: User information deleted
+*/
+router.route('/bulk-delete')
+    .delete(
+        validationHandler(validation.bulkDelete as any),
+        controller.bulkDelete,
+    );
+
 /**
  * @swagger
  * /api/user/{id}:
@@ -213,8 +275,11 @@ router
  */
 
 router
-    .route("/:id")
-    .put(validationHandler(validation.update as any), controller.update);
+    .route('/:id')
+    .put(
+        validationHandler(validation.update as any),
+        controller.update,
+    );
 /**
  * @swagger
  * /api/user/{id}:
@@ -233,11 +298,14 @@ router
  *                      description: Record deleted succesfully
  */
 router
-    .route("/:id")
-    .delete(validationHandler(validation.delete as any), controller.delete);
+    .route('/:id')
+    .delete(
+        validationHandler(validation.delete as any),
+        controller.delete,
+    );
 /**
  * @swagger
- * /api/user/bulkInsert:
+ * /api/user/bulk-insert:
  *   post:
  *        description: Added a multiple new Record in database
  *        tags: [User]
@@ -260,29 +328,10 @@ router
  *                      description: Record added succesfully
  */
 router
-    .route("/bulkInsert")
+    .route('/bulk-insert')
     .post(
         validationHandler(validation.bulkInsert as any),
-        controller.bulkInsert
+        controller.bulkInsert,
     );
-
-/**
- * @swagger
- * /api/user/bulk/name:
- *   delete:
- *        description: Delete multiple existing record from database
- *        tags: [User]
- *        parameters:
- *        - in: path
- *          name: name
- *          schema:
- *           type: string
- *           required: true
- *           description: name of the user
- *        responses:
- *                  200:
- *                      description: User information deleted
- */
-router.route("/bulk/:name").delete(controller.bulkDelete);
 
 export default router;
