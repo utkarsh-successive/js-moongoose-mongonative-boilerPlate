@@ -106,7 +106,7 @@ class UserController {
                 logger.info({ message: 'User not found', data: {} });
                 return res.send(SystemResponse.notFoundError('User not found', {}));
             }
-            const result = await moduleService.update(req.params.id, data);
+            const result = await moduleService.update(req.params.id, data, { deletedAt: 0 });
             logger.info({ messgae: 'Userinfo update successfully', data: result });
             return res.send(
                 SystemResponse.success('Userinfo update successfully', result),

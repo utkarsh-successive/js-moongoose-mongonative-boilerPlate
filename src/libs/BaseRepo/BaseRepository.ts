@@ -44,14 +44,14 @@ D extends mongoose.Document, M extends mongoose.Model<D>
         return this.ModelType.count(query);
     }
 
-    public async findOne(query : any): Promise < D > {
-        return this.ModelType.findById(query.id);
+    public async findOne(query : any,): Promise < any > {
+        return  this.ModelType.find({_id: query.id, "deletedAt" : { $exists : false} });
     }
 
-    public async update(query: IQueryBaseUpdate, itemsToUpdate: IQueryUpdate): Promise < D > {
+    public async update(query: IQueryBaseUpdate, itemsToUpdate: IQueryUpdate): Promise < any > {
         const option = { _id: query };
         const update = { ...itemsToUpdate };
-        await this.ModelType.findByIdAndUpdate(option, update);
+        await this.ModelType.updateOne(option, {...update,  updatedAt: new Date()}).lean();
         const result = await this.ModelType.findById(query);
         return result;
     }
@@ -76,8 +76,10 @@ D extends mongoose.Document, M extends mongoose.Model<D>
     }
 
     protected async delete(query : IQueryBaseDelete): Promise<mongoose.UpdateQuery<D>> {
-        return this.ModelType.deleteOne(query);
-    }
+        return this.ModelType
+        .updateOne({ deletedAt: null, ...query }, { deletedAt: new Date() })
+        .lean();
+    };
 
     protected async deleteMany(query : IQueryBaseDeleteMany): Promise<mongoose.UpdateQuery<D>> {
         return this.ModelType.deleteMany(query);
