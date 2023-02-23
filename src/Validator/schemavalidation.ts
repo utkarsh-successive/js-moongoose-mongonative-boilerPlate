@@ -1,15 +1,15 @@
 import BaseRepository from "../libs/BaseRepo/BaseRepository";
 
 class schemaValidation extends BaseRepository {
-    protected serviceCollection = {};
+    // protected serviceCollection = {};
 
-    protected moduleService;
+    protected collection ;
 
-    constructor(res, config : string[], moduleService) {
-        this.moduleService = moduleService;
-
-        config.forEach((item) => {
-            this.serviceCollection[item] = new services[item](res);
-        });
+    constructor(collection) {
+      super();
+      this.collection = collection;
+    }
+    public set(){
+        super.createCollection(this.collection);
     }
 }    

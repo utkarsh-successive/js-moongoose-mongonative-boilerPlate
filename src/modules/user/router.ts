@@ -3,8 +3,6 @@ import validationHandler from '../../libs/validationHandler';
 import controller from './UserController';
 import validation from './validation';
 import authMiddleWare from '../../middleware/authMiddleWare';
-import UsersValidate from '../../Validator/userSchema';
-
 
 const router = Router();
 /** Use to set and get redis value */
@@ -124,8 +122,7 @@ router.route('/')
  */
 router.route('/')
     .post(
-        // validationHandler(validation.create as any),
-        UsersValidate.create,
+        validationHandler(validation.create as any),
         // authMiddleWare,
         controller.create,
     );
