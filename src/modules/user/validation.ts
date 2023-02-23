@@ -72,6 +72,14 @@ export default Object.freeze({
             optional: true,
             toInt: true,
         },
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            in: ['query'],
+            optional: true,
+        },
     },
 
     update: {
