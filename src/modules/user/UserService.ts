@@ -10,7 +10,7 @@ class UserService {
     }
 
     public async list(limit: number, skip: number, search: any, projection?): Promise<IUser[]> {
-        return this.userRepository.list(search, projection, {limit, skip});
+        return this.userRepository.list(search, projection, { limit, skip });
     }
 
     public async create(query): Promise<IUser> {
@@ -24,9 +24,13 @@ class UserService {
     public async get(query): Promise<IUser> {
         return this.userRepository.get(query);
     }
-    
+
     public async update(option: string, query): Promise<IUser> {
         return this.userRepository.update(option, query);
+    }
+
+    public async bulkUpdate(query, itemsToUpdate): Promise<mongoose.UpdateQuery<IUser[]>> {
+        return this.userRepository.bulkUpdate(query, itemsToUpdate);
     }
 
     public async delete(query): Promise<mongoose.UpdateQuery<IUser>> {
@@ -35,10 +39,15 @@ class UserService {
             _id: id,
         });
     }
+
     public async bulkDelete(query): Promise<mongoose.UpdateQuery<IUser>> {
         return this.userRepository.bulkDelete({
             ...query,
         });
+    }
+
+    public async count(query): Promise<number> {
+        return this.userRepository.count(query);
     }
 }
 

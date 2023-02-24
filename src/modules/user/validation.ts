@@ -72,6 +72,14 @@ export default Object.freeze({
             optional: true,
             toInt: true,
         },
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            in: ['query'],
+            optional: true,
+        },
     },
 
     update: {
@@ -124,25 +132,24 @@ export default Object.freeze({
         },
         optional: true,
     },
-    bulkInsert: [
-        {
-        name: {
+    bulkInsert: {
+        'users.*.name': {
             isLength: {
                 errorMessage: 'name should be at least 2 chars long',
                 options: { min: 2 },
             },
         },
-        email: {
+        'users.*.email': {
             isEmail: {
                 errorMessage: 'Please provide valid email',
             },
         },
-        age: {
+        'users.*.age': {
             custom: {
                 options: (value: number) => isNumberValid(value, 'age'),
             },
         },
-        'address.flat_no': {
+        'users.*.address.flat_no': {
             custom: {
                 options: (value: number) => {
                     if (typeof value !== 'number' || value <= 0) {
@@ -152,16 +159,35 @@ export default Object.freeze({
                 },
             },
         },
-        'address.state': {
+        'users.*.address.state': {
             notEmpty: true,
             errorMessage: 'state cannot be empty',
         },
-        'address.city': {
+        'users.*.address.city': {
             notEmpty: true,
             errorMessage: 'city cannot be empty',
         },
-    
-    }
-],
+
+    },
+
+    bulkUpdate: {
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            in: ['query'],
+        },
+    },
+
+    bulkDelete: {
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            in: ['query'],
+        },
+    },
 
 });

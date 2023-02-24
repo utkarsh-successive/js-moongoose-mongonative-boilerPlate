@@ -30,24 +30,39 @@ D extends mongoose.Document, M extends mongoose.Model<D>
 
     public async insertMany(
         options?: any | null,
-      ) {
+    ): Promise<D[]> {
         const result = this.ModelType.insertMany(options);
         return result;
-      }
+    }
 
     public async count(query:any): Promise < number > {
-        return this.ModelType.count(query);
+        return this.ModelType.count({ deletedAt: { $exists: false }, ...query });
     }
 
-    public async findOne(query : any): Promise < D > {
-        return this.ModelType.findById(query.id);
+    public async findOne(query : any): Promise < any > {
+        return this.ModelType.find({ _id: query.id, deletedAt: { $exists: false } });
     }
 
-    public async update(query: IQueryBaseUpdate, itemsToUpdate: IQueryUpdate): Promise < D > {
-        const option = { _id: query };
+    public async update(query: IQueryBaseUpdate, itemsToUpdate: IQueryUpdate): Promise < any > {
+        const option = { _id: query, deletedAt: { $exists: false } };
         const update = { ...itemsToUpdate };
-        await this.ModelType.findByIdAndUpdate(option, update);
+        await this.ModelType
+            .updateOne(option, { ...update, updatedAt: new Date() })
+            .lean();
         const result = await this.ModelType.findById(query);
+        return result;
+    }
+
+    public async bulkUpdate(
+        query: IQueryBaseDeleteMany,
+        itemsToUpdate: IQueryUpdate,
+    ): Promise<mongoose.UpdateQuery<D[]>> {
+        const result = await this.ModelType
+            .updateMany(
+                { deletedAt: { $exists: false }, ...query },
+                { ...itemsToUpdate, updatedAt: new Date() },
+            )
+            .lean();
         return result;
     }
 
@@ -57,15 +72,28 @@ D extends mongoose.Document, M extends mongoose.Model<D>
         projection: any = {},
     ): Promise<D[]> {
         const option = options;
-        option.limit = option.limit || 0;
-        option.skip = option.skip || 0;
-        return this.ModelType.find(query || {}, projection, option);
+        option.limit = options.limit;
+        option.skip = options.skip;
+        return this.ModelType.find(
+            { deletedAt: { $exists: false }, ...query },
+            projection,
+            option,
+        ).lean();
     }
 
     protected async delete(query : IQueryBaseDelete): Promise<mongoose.UpdateQuery<D>> {
-        return this.ModelType.deleteOne(query);
+        return this.ModelType
+            .updateOne(
+                { deletedAt: { $exists: false }, ...query },
+                { deletedAt: new Date() },
+            ).lean();
     }
+
     protected async deleteMany(query : IQueryBaseDeleteMany): Promise<mongoose.UpdateQuery<D>> {
-        return this.ModelType.deleteMany(query);
+        return this.ModelType
+            .updateMany(
+                { deletedAt: { $exists: false }, ...query },
+                { deletedAt: new Date() },
+            ).lean();
     }
 }

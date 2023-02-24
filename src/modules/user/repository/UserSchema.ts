@@ -5,31 +5,37 @@ export default class UserSchema extends BaseSchema {
         const addressSchema = {
             flat_no: {
                 type: Number,
+                min: 1,
             },
             city: {
                 type: String,
+                trim: true,
             },
             state: {
                 type: String,
+                trim: true,
             },
         };
 
         const baseSchema = {
             name: {
                 type: String,
+                trim: true,
             },
             email: {
                 type: String,
-                unique: true,
+                trim: true,
             },
             mobile_no: {
                 type: String,
+                trim: true,
             },
             address: {
                 type: addressSchema,
             },
             age: {
                 type: Number,
+                min: 0,
             },
 
         };

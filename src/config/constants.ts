@@ -3,10 +3,9 @@ export const SWAGGER_URL = '/api-docs';
 export const API_PREFIX = '/api';
 
 export const ABOUT = {
-    description: 'Mongoose API with Swagger',
     in: 'Headers',
     name: 'Authorization',
-    title: 'Mongoose Boilerplate',
+    title: 'Mongoose-Boilerplate',
     type: 'apiKey',
 };
 

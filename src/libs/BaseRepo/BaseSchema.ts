@@ -7,6 +7,10 @@ class VersionableSchema extends mongoose.Schema {
                 default: Date.now,
                 type: Date,
             },
+            updatedAt: {
+                default: Date.now,
+                type: Date,
+            },
             deletedAt: {
                 required: false,
                 type: Date,
