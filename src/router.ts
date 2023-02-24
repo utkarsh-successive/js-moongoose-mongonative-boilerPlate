@@ -61,7 +61,6 @@ router.get('/version', (req, res) => {
 router.get('/health-check', (req, res) => {
     res.send('I am OK');
 });
-
 router.use('/user', initServiceMiddleware([], new UserService()), userRouter);
 
 export default router;

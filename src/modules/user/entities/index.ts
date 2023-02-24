@@ -8,6 +8,7 @@ import IQueryDelete from './IQueryDelete';
 import IQueryGet from './IQueryGet';
 import IQueryList from './IQueryList';
 import IQueryUpdate from './IQueryUpdate';
+import IQueryBaseDeleteMany from './IQueryBaseDeleteMany';
 
 export {
     IQueryBaseCreate,
@@ -20,4 +21,5 @@ export {
     IQueryList,
     IQueryUpdate,
     IQueryGet,
+    IQueryBaseDeleteMany,
 };
