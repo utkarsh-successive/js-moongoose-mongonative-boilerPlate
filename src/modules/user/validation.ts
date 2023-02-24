@@ -133,6 +133,11 @@ export default Object.freeze({
         optional: true,
     },
     bulkInsert: {
+        users: {
+            isArray: true,
+            notEmpty: true,
+            errorMessage: 'Need to have atleast one user info',
+        },
         'users.*.name': {
             isLength: {
                 errorMessage: 'name should be at least 2 chars long',
