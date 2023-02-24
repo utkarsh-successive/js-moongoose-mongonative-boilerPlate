@@ -3,10 +3,9 @@ export const SWAGGER_URL = '/api-docs';
 export const API_PREFIX = '/api';
 
 export const ABOUT = {
-    description: 'MongoDB ORM VS ODM API with Swagger',
     in: 'Headers',
     name: 'Authorization',
-    title: 'Moongo-Moongo NAtive Driver-Boilerplate',
+    title: 'Mongoose-Boilerplate',
     type: 'apiKey',
 };
 

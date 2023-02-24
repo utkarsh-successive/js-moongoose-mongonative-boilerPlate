@@ -7,7 +7,6 @@ export interface ISwaggerDefinition {
   swaggerDefinition: {
     basePath: string;
     info: {
-      description: string;
       title: string;
       version: string;
     },
