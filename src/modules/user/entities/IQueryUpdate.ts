@@ -1,10 +1,12 @@
 import IQueryBaseUpdate from './IQueryBaseUpdate';
 
 interface IQueryUpdate extends IQueryBaseUpdate {
-  first_name?: string;
-  last_name?: string;
+  name?: string;
   email?: string;
-  password?: string;
+  mobile_no?: number;
+  address?: object;
+  age?: number;
+  empId?: string;
 }
 
 export default IQueryUpdate;

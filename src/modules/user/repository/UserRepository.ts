@@ -28,14 +28,21 @@ class UserRepository extends BaseRepository {
     public async get(query: IQueryGet): Promise<IUserModel> {
         return super.findOne('users', query);
     }
+    public async update(options, itemsToUpdate: IQueryUpdate): Promise<IUserModel> {
+        return super.update('users',options, itemsToUpdate);
+    }
+    public async bulkUpdate(
+        query,
+        itemsToUpdate: IQueryUpdate,
+    ): Promise<IUserModel[]> {
+        console.log('underthe user repository');
+        return super.bulkUpdate('users',query, itemsToUpdate);
+    }
 
-    // public async count(query): Promise<number> {
-    //     return super.count(query);
-    // }
+    public async count(query): Promise<number> {
+        return super.count('users',query);
+    }
 
-    // public async update(options, itemsToUpdate: IQueryUpdate): Promise<IUserModel> {
-    //     return super.update(options, itemsToUpdate);
-    // }
 
 }
 export default UserRepository;

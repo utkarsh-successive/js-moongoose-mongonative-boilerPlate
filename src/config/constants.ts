@@ -3,10 +3,10 @@ export const SWAGGER_URL = '/api-docs';
 export const API_PREFIX = '/api';
 
 export const ABOUT = {
-    description: 'Users-Express-Boilerplate API with Swagger',
+    description: 'Mongo-Native Boilerplate API with Swagger',
     in: 'Headers',
     name: 'Authorization',
-    title: 'Node-Express-Boilerplate',
+    title: 'Mongo-Native-Boilerplate',
     type: 'apiKey',
 };
 
