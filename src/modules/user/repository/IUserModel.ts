@@ -2,10 +2,12 @@ import IBaseDocument from '../../../libs/BaseRepo/IBaseDocument';
 
 interface IUserModel extends IBaseDocument {
   id: string;
-  first_name: string;
-  last_name: string;
+  empId: string;
+  name: string;
   email: string;
-  password: string;
+  mobile_no: number;
+  address: object;
+  age: number;
 }
 
 export default IUserModel;

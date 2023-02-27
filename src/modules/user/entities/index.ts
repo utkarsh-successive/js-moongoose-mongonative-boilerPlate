@@ -20,4 +20,5 @@ export {
     IQueryList,
     IQueryUpdate,
     IQueryGet,
+    // IQueryBaseDeleteMany,
 };

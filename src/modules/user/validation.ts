@@ -1,32 +1,50 @@
-import { isValidObjectId } from '../../libs/MongoUtils';
+// import { isValidObjectId } from '../../libs/MongoUtils';
+import { isNumberValid, isValidObjectId } from '../../libs/MongoUtils';
 
 export default Object.freeze({
     create: {
-        first_name: {
-            errorMessage: 'First Name is wrong!',
-            in: ['body'],
+        name: {
             isLength: {
-                errorMessage: 'First Name should be at least 2 chars long',
+                errorMessage: 'name should be at least 2 chars long',
                 options: { min: 2 },
             },
         },
-        last_name: {
-            errorMessage: 'Last Name is wrong!',
-            in: ['body'],
-            isLength: {
-                errorMessage: 'Last Name should be at least 2 chars long',
-                options: { min: 2 },
+        email: {
+            isEmail: {
+                errorMessage: 'Please provide valid email',
             },
+        },
+        age: {
+            custom: {
+                options: (value: number) => isNumberValid(value, 'age'),
+            },
+        },
+        'address.flat_no': {
+            custom: {
+                options: (value: number) => {
+                    if (typeof value !== 'number' || value <= 0) {
+                        throw new Error('flat no. should be greater than 0');
+                    }
+                    return true;
+                },
+            },
+        },
+        'address.state': {
+            notEmpty: true,
+            errorMessage: 'state cannot be empty',
+        },
+        'address.city': {
+            notEmpty: true,
+            errorMessage: 'city cannot be empty',
         },
     },
-
     delete: {
         id: {
             custom: {
                 options: (id: string) => isValidObjectId(id),
             },
             errorMessage: 'Bad ID format',
-            in: ['body'],
+            in: ['param'],
         },
     },
 
@@ -39,6 +57,7 @@ export default Object.freeze({
             in: ['params'],
         },
     },
+
     list: {
         limit: {
             errorMessage: 'limit is wrong',
@@ -54,6 +73,14 @@ export default Object.freeze({
             optional: true,
             toInt: true,
         },
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            in: ['query'],
+            optional: true,
+        },
     },
 
     update: {
@@ -62,38 +89,110 @@ export default Object.freeze({
                 options: (id: string) => isValidObjectId(id),
             },
             errorMessage: 'Bad ID format',
-            in: ['body'],
+            in: ['params'],
         },
-        first_name: {
-            errorMessage: 'First Name is wrong!',
-            in: ['body'],
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            optional: true,
         },
-        last_name: {
-            errorMessage: 'Last Name is wrong!',
-            in: ['body'],
+        email: {
+            isEmail: {
+                errorMessage: 'Please provide valid email',
+            },
+            optional: true,
+        },
+        age: {
+            custom: {
+                options: (value: number) => isNumberValid(value, 'age'),
+            },
+            optional: true,
+        },
+        'address.flat_no': {
+            custom: {
+                options: (value: number) => {
+                    if (typeof value !== 'number' || value <= 0) {
+                        throw new Error('flat no. should be greater than 0');
+                    }
+                    return true;
+                },
+            },
+            optional: true,
+        },
+        'address.state': {
+            notEmpty: true,
+            errorMessage: 'state cannot be empty',
+            optional: true,
+        },
+        'address.city': {
+            notEmpty: true,
+            errorMessage: 'city cannot be empty',
+            optional: true,
+        },
+        optional: true,
+    },
+    bulkInsert: {
+        users: {
+            isArray: true,
+            notEmpty: true,
+            errorMessage: 'Need to have atleast one user info',
+        },
+        'users.*.name': {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+        },
+        'users.*.email': {
+            isEmail: {
+                errorMessage: 'Please provide valid email',
+            },
+        },
+        'users.*.age': {
+            custom: {
+                options: (value: number) => isNumberValid(value, 'age'),
+            },
+        },
+        'users.*.address.flat_no': {
+            custom: {
+                options: (value: number) => {
+                    if (typeof value !== 'number' || value <= 0) {
+                        throw new Error('flat no. should be greater than 0');
+                    }
+                    return true;
+                },
+            },
+        },
+        'users.*.address.state': {
+            notEmpty: true,
+            errorMessage: 'state cannot be empty',
+        },
+        'users.*.address.city': {
+            notEmpty: true,
+            errorMessage: 'city cannot be empty',
         },
 
     },
 
-    registration: {
-        email: {
-            isEmail: {
-                bail: true,
-            },
-            in: ['body'],
-            errorMessage: 'Please enter valid Email',
+    bulkUpdate: {
+        name: {
             isLength: {
-                errorMessage: 'Character should be 1',
-                options: { min: 1 },
-            },
-        },
-        password: {
-            errorMessage: 'Last Name is wrong!',
-            in: ['body'],
-            isLength: {
-                errorMessage: 'Last Name should be at least 2 chars long',
+                errorMessage: 'name should be at least 2 chars long',
                 options: { min: 2 },
             },
+            in: ['query'],
+        },
+    },
+
+    bulkDelete: {
+        name: {
+            isLength: {
+                errorMessage: 'name should be at least 2 chars long',
+                options: { min: 2 },
+            },
+            in: ['query'],
         },
     },
 
