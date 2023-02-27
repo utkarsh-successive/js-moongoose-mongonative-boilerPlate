@@ -44,9 +44,6 @@ export default class BaseRepository extends Database {
         query: any,
         itemsToUpdate: IQueryUpdate,
     ): Promise<any> {
-        console.log('under the base re[ository');
-        console.log('under the base re[ository query', query);
-        console.log('under the base re[ository', itemsToUpdate);
         const result = (await super.getDB()).collection(collection).updateMany(
                 {  ...query },
                 {$set: { ...itemsToUpdate, updatedAt: new Date() }},

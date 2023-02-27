@@ -25,8 +25,6 @@ class UserService {
         return this.userRepository.update(option, query);
     }
     public async bulkUpdate(query, itemsToUpdate): Promise<IUser[]> {
-        console.log('in auser service', itemsToUpdate, query);
-
         return this.userRepository.bulkUpdate(query, itemsToUpdate);
     }
 

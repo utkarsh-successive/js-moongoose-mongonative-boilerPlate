@@ -61,10 +61,6 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            // const {
-            //     email, password, first_name: firstName, last_name: lastName,
-            // } = req.body;
-            // const hashPassword = await bcrypt.hash(password, constants.BCRYPT_SALT_ROUNDS);
             const result = await moduleService.bulkInsert(req.body);
             logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
             return res.send(SystemResponse.success('User created', result));
@@ -90,36 +86,6 @@ class UserController {
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
-    // public update = async (req, res) => {
-    //     const { locals: { logger }, services } = res;
-    //     const { moduleService } = services;
-    //     try {
-    //         const data = req.body;
-    //         const result = await moduleService.update(data.id, data);
-    //         logger.info({ messgae: 'User updated', data: [] });
-    //         return res.send(SystemResponse.success('User updated successfully', result));
-    //     } catch (err) {
-    //         logger.error({ message: err.message, option: [{ Error: err.stack }] });
-    //         return res.send(SystemResponse.internalServerError);
-    //     }
-    // };
-    // public bulkInsert = async (req, res) => {
-    //     const { locals: { logger }, services } = res;
-    //     const { moduleService } = services;
-    //     try {
-    //         // const {
-    //         //     email, password, first_name: firstName, last_name: lastName,
-    //         // } = req.body;
-    //         // const hashPassword = await bcrypt.hash(password, constants.BCRYPT_SALT_ROUNDS);
-    //         const result = await moduleService.bulkInsert(req.body);
-    //         logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
-    //         return res.send(SystemResponse.success('User created', result));
-    //     } catch (err) {
-    //         logger.error({ message: err.message, option: [{ Error: err.stack }] });
-    //         return res.send(SystemResponse.internalServerError('Failed', err));
-    //     }
-    // };
     public update = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -129,7 +95,6 @@ class UserController {
             if (data?.email) {
                 const { email } = data;
                 const totalUsers = await moduleService.count({ email });
-                console.log('totaluser', totalUsers);
                 if (totalUsers) {
                     logger.error({ message: 'User already exists' });
                     return res.send(
@@ -155,24 +120,20 @@ class UserController {
         }
     };
     public bulkUpdate = async (req, res) => {
-        console.log("fjksndfkjsndkj");
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
             const { name } = req.query;
             const data = req.body;
-            console.log('data', data);
-            console.log('unsder the bulk update');
-            // if (data?.email) {
-            //     logger.info({ message: 'Cannot update duplicate email', data: [] });
-            //     return res.send(SystemResponse.notFoundError('Cannot update duplicate emails', []));
-            // }
-            // const totalUsers = await moduleService.count({ name });
-            // console.log('totaluser', totalUsers);
-            // if (!totalUsers) {
-            //     logger.info({ message: 'User not found', data: [] });
-            //     return res.send(SystemResponse.notFoundError('Users not found', []));
-            // }
+            if (data?.email) {
+                logger.info({ message: 'Cannot update duplicate email', data: [] });
+                return res.send(SystemResponse.notFoundError('Cannot update duplicate emails', []));
+            }
+            const totalUsers = await moduleService.count({ name });
+            if (!totalUsers) {
+                logger.info({ message: 'User not found', data: [] });
+                return res.send(SystemResponse.notFoundError('Users not found', []));
+            }
             const result = await moduleService.bulkUpdate(
                 { name },
                 data,

@@ -35,7 +35,6 @@ class UserRepository extends BaseRepository {
         query,
         itemsToUpdate: IQueryUpdate,
     ): Promise<IUserModel[]> {
-        console.log('underthe user repository');
         return super.bulkUpdate('users',query, itemsToUpdate);
     }
 
