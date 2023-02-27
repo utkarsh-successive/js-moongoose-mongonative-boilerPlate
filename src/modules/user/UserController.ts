@@ -60,10 +60,6 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            // const {
-            //     email, password, first_name: firstName, last_name: lastName,
-            // } = req.body;
-            // const hashPassword = await bcrypt.hash(password, constants.BCRYPT_SALT_ROUNDS);
             const result = await moduleService.bulkInsert(req.body);
             logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
             return res.send(SystemResponse.success('User created', result));
@@ -130,6 +126,15 @@ class UserController {
         try {
             const { name } = req.query;
             const data = req.body;
+            if (data?.email) {
+                logger.info({ message: 'Cannot update duplicate email', data: [] });
+                return res.send(SystemResponse.notFoundError('Cannot update duplicate emails', []));
+            }
+            const totalUsers = await moduleService.count({ name });
+            if (!totalUsers) {
+                logger.info({ message: 'User not found', data: [] });
+                return res.send(SystemResponse.notFoundError('Users not found', []));
+            }
             const result = await moduleService.bulkUpdate(
                 { name },
                 data,
