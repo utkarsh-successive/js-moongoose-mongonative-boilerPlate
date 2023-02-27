@@ -8,8 +8,5 @@ export interface IConfig extends ISwaggerDefinition {
   mongo: string;
   mongooseDebug: boolean;
   swaggerUrl: string;
-  redisHost: string;
-  redisPort: number;
   secret: string;
-  notificationServiceUrl: string;
 }

@@ -48,9 +48,9 @@ This section is for getting started with service on your development environment
  - POST : It is used to create a new user data in the collection.
  - PUT : It is used to update the previous user data in the collection.
  - DELETE : It is used to delete the existing user data from the collection.
- - BulkInsert : It is used to create a new mutiple user data in the collection.
- - BulkUpdate : 
- - BulkDelete : It is used to delete the multiple existing user data from the  
+ - BULKINSERT : It is used to create a new mutiple user data in the collection.
+ - BULKUPDATE : It is used to update existing users information.
+ - BULKDELETE : It is used to delete the multiple existing user data from the  
                 collection
  2. **InBuilt Package** We have three custom npm package which is response-handler, comm-handler and logger.
 
@@ -66,9 +66,6 @@ This section is for getting started with service on your development environment
 
 
 4. **Services**  These services act as a middleware which initiate different services for a particular module. We can use these services as microservice for our application.
-
-
-5. **Profiling** Profiling help us to diagnose our application performance and guides you towards more specialized tools to look deeper into your specific issues.
 
 
 # Running the app
@@ -97,24 +94,6 @@ We also use [Eslint](https://github.com/eslint/eslint) with Typescript Standard 
  ```
  npm run lint:fix
  ```
-# Profiling
-We use Profiling with [Clinicjs](https://clinicjs.org/documentation/) in this project.
-- To run profiling
-   ```
-   npm run profile
-   ```
-- To check performance of a particular API
-   ```
-   clinic doctor --autocannon [ -m GET /api/todo ] -- node dist/src/index.js
-   ```
-- To check the performance with a particular load on the application or on a API
-   ```
-   clinic doctor --autocannon [ -c 100 -a 200 -m GET /api/todo ] -- node dist/src/index.js
-   ```
-
-
-# CI Integration
- - TODO
 
 
 ### Guidelines - must be followed strictly
@@ -131,6 +110,3 @@ Please enable following plugins for your editor:
 - **EditorConfig:** To enable reading of .editorconfig file for consistent coding convention.
 - **Eslint:** For linting errors
 close
-
-
-

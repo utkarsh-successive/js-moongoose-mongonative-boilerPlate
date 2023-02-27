@@ -1,13 +1,8 @@
 import * as mongoose from 'mongoose';
 import {
     IQueryBaseUpdate, IQueryUpdate,
-    IQueryBaseCreate, IQueryBaseDelete,
+    IQueryBaseCreate, IQueryBaseDelete, IQueryBaseDeleteMany,
 } from '../../modules/user/entities';
-import IQueryBaseDeleteMany from '../../modules/user/entities/IQueryBaseDeleteMany';
-// import {
-//     IQueryBaseCreate,
-//     IQueryBaseDelete,
-// } from '../../modules/user/entities';
 
 export default class BaseRepository <
 D extends mongoose.Document, M extends mongoose.Model<D>

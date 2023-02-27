@@ -84,8 +84,8 @@ export const userSchema = new UserSchema({
  */
 
 /**
-   * Indexes
-   */
+ * Indexes
+ */
 userSchema.index({
     name: 1,
 });

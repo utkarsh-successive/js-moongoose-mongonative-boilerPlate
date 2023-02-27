@@ -1,7 +1,7 @@
 {
-  "name": "express-boilerplate",
+  "name": "Mongoose ODM Boilerplate",
   "version": "1.0.0",
-  "description": "Express-boilerplates (services), is a basic application from where a developer can start a new service. It showcase all (or almost all) of the features or say best practices that we can use in an API.",
+  "description": "Mongoose-boilerplate (services), is a basic application from where a developer can start a new service. It showcase all (or almost all) of the features or say best practices that we can use in an API.",
   "main": "src/index.js",
   "scripts": {
     "prebuild": "npm run remove-dist",
