@@ -68,7 +68,6 @@ export default class BaseRepository extends Database {
     }
 
     public async deleteMany(collection: string, filter: any): Promise<any> {
-        console.log('🚀 ~ file: BaseRepository.ts:30 ~ BaseRepository ~ deleteMany ~ filter:', filter);
         return (await super.getDB()).collection(collection).deleteMany(filter);
     }
 }

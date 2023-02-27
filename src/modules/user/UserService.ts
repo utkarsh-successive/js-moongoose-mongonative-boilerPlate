@@ -42,7 +42,6 @@ class UserService {
     }
 
     public async bulkDelete(options): Promise<any> {
-        console.log('🚀 ~ file: UserService.ts:49 ~ UserService ~ bulkDelete ~ options:', options);
         const { name } = options;
         return this.userRepository.bulkDelete(
             { first_name: name },

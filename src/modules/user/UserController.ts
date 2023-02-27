@@ -167,7 +167,6 @@ class UserController {
         const { moduleService } = services;
         try {
             const { name } = req.params;
-            console.log('🚀 ~ file: UserController.ts:139 ~ UserController ~ publicbulkDelete ~ req.params:', req.params);
             const result = await moduleService.bulkDelete(
                 { name },
             );
