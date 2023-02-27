@@ -25,8 +25,6 @@ class UserController {
         const { moduleService } = services;
         try {
             const { limit, skip } = req.query;
-
-            // for user service - fetch
             const result = await moduleService.list(limit, skip);
             if (!result.length) {
                 logger.debug({ message: 'Data not found', option: [], data: [] });
@@ -57,7 +55,8 @@ class UserController {
         }
     };
 
-    public bulkInsert = async (req, res) => {        
+    // eslint-disable-next-line class-methods-use-this
+    public bulkInsert = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
@@ -73,7 +72,6 @@ class UserController {
             return res.send(SystemResponse.internalServerError('Failed', err));
         }
     };
-
 
     // eslint-disable-next-line class-methods-use-this
     public get = async (req, res): Promise<Nullable<IUser>> => {
@@ -91,35 +89,6 @@ class UserController {
     };
 
     // eslint-disable-next-line class-methods-use-this
-    // public update = async (req, res) => {
-    //     const { locals: { logger }, services } = res;
-    //     const { moduleService } = services;
-    //     try {
-    //         const data = req.body;
-    //         const result = await moduleService.update(data.id, data);
-    //         logger.info({ messgae: 'User updated', data: [] });
-    //         return res.send(SystemResponse.success('User updated successfully', result));
-    //     } catch (err) {
-    //         logger.error({ message: err.message, option: [{ Error: err.stack }] });
-    //         return res.send(SystemResponse.internalServerError);
-    //     }
-    // };
-    // public bulkInsert = async (req, res) => {
-    //     const { locals: { logger }, services } = res;
-    //     const { moduleService } = services;
-    //     try {
-    //         // const {
-    //         //     email, password, first_name: firstName, last_name: lastName,
-    //         // } = req.body;
-    //         // const hashPassword = await bcrypt.hash(password, constants.BCRYPT_SALT_ROUNDS);
-    //         const result = await moduleService.bulkInsert(req.body);
-    //         logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
-    //         return res.send(SystemResponse.success('User created', result));
-    //     } catch (err) {
-    //         logger.error({ message: err.message, option: [{ Error: err.stack }] });
-    //         return res.send(SystemResponse.internalServerError('Failed', err));
-    //     }
-    // };
     public update = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -129,7 +98,6 @@ class UserController {
             if (data?.email) {
                 const { email } = data;
                 const totalUsers = await moduleService.count({ email });
-                console.log('totaluser', totalUsers);
                 if (totalUsers) {
                     logger.error({ message: 'User already exists' });
                     return res.send(
@@ -154,25 +122,14 @@ class UserController {
             return res.send(SystemResponse.internalServerError(error.message, error));
         }
     };
+
+    // eslint-disable-next-line class-methods-use-this
     public bulkUpdate = async (req, res) => {
-        console.log("fjksndfkjsndkj");
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
             const { name } = req.query;
             const data = req.body;
-            console.log('data', data);
-            console.log('unsder the bulk update');
-            // if (data?.email) {
-            //     logger.info({ message: 'Cannot update duplicate email', data: [] });
-            //     return res.send(SystemResponse.notFoundError('Cannot update duplicate emails', []));
-            // }
-            // const totalUsers = await moduleService.count({ name });
-            // console.log('totaluser', totalUsers);
-            // if (!totalUsers) {
-            //     logger.info({ message: 'User not found', data: [] });
-            //     return res.send(SystemResponse.notFoundError('Users not found', []));
-            // }
             const result = await moduleService.bulkUpdate(
                 { name },
                 data,
@@ -187,7 +144,6 @@ class UserController {
         }
     };
 
-
     // eslint-disable-next-line class-methods-use-this
     public delete = async (req, res) => {
         const { locals: { logger }, services } = res;
@@ -195,6 +151,25 @@ class UserController {
         try {
             const result = await moduleService.delete(
                 req.params,
+            );
+            logger.info({ messgae: 'User deleted', data: [], option: [] });
+            return res.send(SystemResponse.success('User deleted', result));
+        } catch (err) {
+            logger.error({ message: err.message, option: [{ Error: err.stack }] });
+            return res.send(SystemResponse.internalServerError);
+        }
+    };
+
+    // eslint-disable-next-line class-methods-use-this
+    public bulkDelete = async (req, res) => {
+        // res.send('heyy deepak');
+        const { locals: { logger }, services } = res;
+        const { moduleService } = services;
+        try {
+            const { name } = req.params;
+            console.log('🚀 ~ file: UserController.ts:139 ~ UserController ~ publicbulkDelete ~ req.params:', req.params);
+            const result = await moduleService.bulkDelete(
+                { name },
             );
             logger.info({ messgae: 'User deleted', data: [], option: [] });
             return res.send(SystemResponse.success('User deleted', result));

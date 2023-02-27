@@ -11,9 +11,8 @@ import { EnvVars } from './config/constants';
 import notFoundRoute from './libs/routes';
 import Swagger from './libs/documentation/swagger/Swagger';
 import router from './router';
-import CacheManager from './libs/cache/CacheManager';
 import Database from './libs/database/Database';
-// import BaseRepository from './libs/BaseRepo/BaseRepository';
+
 // To Do Demo description
 export default class Server {
     private app: express.Express;
