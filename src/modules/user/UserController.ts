@@ -62,7 +62,8 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const result = await moduleService.bulkInsert(req.body);
+            const {users} = req.body;   
+            const result = await moduleService.bulkInsert(users);
             logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {

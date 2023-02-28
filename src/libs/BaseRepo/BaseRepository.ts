@@ -34,7 +34,8 @@ export default class BaseRepository extends Database {
     }
 
     public async count(collection: string, query: any): Promise<number> {
-        return (await super.getDB()).collection(collection).count(query);
+        const option = query.email || query.name  ? query : { _id: new ObjectId(query) };
+        return  (await super.getDB()).collection(collection).count(option);
     }
 
     public async update(
@@ -68,6 +69,11 @@ export default class BaseRepository extends Database {
     }
 
     public async deleteMany(collection: string, filter: any): Promise<any> {
-        return (await super.getDB()).collection(collection).deleteMany(filter);
+
+        return (await super.getDB()).collection(collection)
+            .updateMany(
+                { ...filter },
+                { $set: { deletedAt: new Date() } },
+            );
     }
 }
