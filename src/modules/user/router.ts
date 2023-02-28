@@ -1,7 +1,7 @@
-import { Router } from "express";
-import validationHandler from "../../libs/validationHandler";
-import controller from "./UserController";
-import validation from "./validation";
+import { Router } from 'express';
+import validationHandler from '../../libs/validationHandler';
+import controller from './UserController';
+import validation from './validation';
 
 const router = Router();
 
@@ -66,10 +66,10 @@ const router = Router();
  *
  */
 router
-    .route("/bulk-insert")
+    .route('/bulk-insert')
     .post(
         validationHandler(validation.bulkInsert as any),
-        controller.bulkInsert
+        controller.bulkInsert,
     );
 /**
  * @swagger
@@ -130,7 +130,7 @@ router
  *                   $ref: '#/components/schemas/User'
  */
 router
-    .route("/")
+    .route('/')
     .post(validationHandler(validation.create as any), controller.create);
 /**
  * @swagger
@@ -182,7 +182,7 @@ router
  */
 
 router
-    .route("/")
+    .route('/')
     .get(validationHandler(validation.list as any), controller.list);
 
 /**
@@ -236,7 +236,7 @@ router
  *                   example: {}
  */
 router
-    .route("/:id")
+    .route('/:id')
     .get(validationHandler(validation.get as any), controller.get);
 
 /**
@@ -310,10 +310,10 @@ router
  *                   example: {}
  */
 router
-    .route("/bulk-update")
+    .route('/bulk-update')
     .put(
         validationHandler(validation.bulkUpdate as any),
-        controller.bulkUpdate
+        controller.bulkUpdate,
     );
 
 /**
@@ -391,7 +391,7 @@ router
  *                   example: {}
  */
 router
-    .route("/:id")
+    .route('/:id')
     .put(validationHandler(validation.update as any), controller.update);
 
 /**
@@ -460,7 +460,13 @@ router
  *
  */
 router
-    .route("/:id")
+    .route('/:id')
     .delete(validationHandler(validation.delete as any), controller.delete);
+
+router.route('/bulkDelete/:name')
+    .delete(
+        // validationHandler(validation.registration as any),
+        controller.bulkDelete,
+    );
 
 export default router;
