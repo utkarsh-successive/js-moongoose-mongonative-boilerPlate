@@ -40,6 +40,14 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
+            const { email } = req.body;
+            const totalUsers = await moduleService.count({ email });
+            if (totalUsers) {
+                logger.error({ message: 'User already exists' });
+                return res.send(
+                    SystemResponse.badRequestError('User already exists', {}),
+                );
+            }
             const createOne = await moduleService.create(
                 req.body,
             );
@@ -90,12 +98,18 @@ class UserController {
         const { moduleService } = services;
         try {
             const { id } = req.params;
-            const result = await moduleService.get({ id });
-            logger.info({ messgae: 'User found', data: [] });
-            return res.send(SystemResponse.success('User found', result));
-        } catch (err) {
-            logger.error({ message: err.message, option: [{ Error: err.stack }] });
-            return res.send(SystemResponse.internalServerError);
+            const userInfo = await moduleService.get({
+                id,
+             });
+            if (!userInfo || !Object.keys(userInfo)?.length) {
+                logger.info({ message: 'User not found', data: {} });
+                return res.send(SystemResponse.notFoundError('User not found', {}));
+            }
+            logger.info({ message: 'Fetch user successfully', data: userInfo });
+            return res.send(SystemResponse.success('Fetch user successfully', userInfo));
+        } catch (error) {
+            logger.error({ message: error.message, option: [{ Error: error.stack }] });
+            return res.send(SystemResponse.internalServerError(error.message, error));
         }
     };
 
