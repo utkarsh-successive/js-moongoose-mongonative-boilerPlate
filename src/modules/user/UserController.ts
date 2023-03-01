@@ -20,18 +20,19 @@ class UserController {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    public list = async (req, res, next): Promise<IUser[]> => {
+    public list = async (req, res): Promise<IUser[]> => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { limit, skip } = req.query;
-
-            // for user service - fetch
-            const result = await moduleService.list(limit, skip);
+            const { limit, skip, name } = req.query;
+            const result = await moduleService.list(
+                limit,
+                skip,
+                name && { name },
+            );
             if (!result.length) {
-                logger.debug({ message: 'Data not found', option: [], data: [] });
-
-                return next(SystemResponse.badRequestError('Data not found', ''));
+                logger.debug({ message: 'Users not found', data: [] });
+                return res.send(SystemResponse.notFoundError('Users not found', []));
             }
             logger.info({ message: 'List of Users', data: [], option: [] });
             return res.send(SystemResponse.success('List of Users ', result));
@@ -46,9 +47,11 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const result = await moduleService.create(
+            const createOne = await moduleService.create(
                 req.body,
             );
+            const id = createOne.insertedId;
+            const result = await moduleService.get(id);
             logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {
@@ -57,11 +60,13 @@ class UserController {
         }
     };
 
-    public bulkInsert = async (req, res) => {        
+    // eslint-disable-next-line class-methods-use-this
+    public bulkInsert = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const result = await moduleService.bulkInsert(req.body);
+            const { users } = req.body;
+            const result = await moduleService.bulkInsert(users);
             logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {
@@ -69,7 +74,6 @@ class UserController {
             return res.send(SystemResponse.internalServerError('Failed', err));
         }
     };
-
 
     // eslint-disable-next-line class-methods-use-this
     public get = async (req, res): Promise<Nullable<IUser>> => {
@@ -86,6 +90,7 @@ class UserController {
         }
     };
 
+    // eslint-disable-next-line class-methods-use-this
     public update = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -119,6 +124,8 @@ class UserController {
             return res.send(SystemResponse.internalServerError(error.message, error));
         }
     };
+
+    // eslint-disable-next-line class-methods-use-this
     public bulkUpdate = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -148,7 +155,6 @@ class UserController {
         }
     };
 
-
     // eslint-disable-next-line class-methods-use-this
     public delete = async (req, res) => {
         const { locals: { logger }, services } = res;
@@ -156,6 +162,23 @@ class UserController {
         try {
             const result = await moduleService.delete(
                 req.params,
+            );
+            logger.info({ messgae: 'User deleted', data: [], option: [] });
+            return res.send(SystemResponse.success('User deleted', result));
+        } catch (err) {
+            logger.error({ message: err.message, option: [{ Error: err.stack }] });
+            return res.send(SystemResponse.internalServerError);
+        }
+    };
+
+    // eslint-disable-next-line class-methods-use-this
+    public bulkDelete = async (req, res) => {
+        const { locals: { logger }, services } = res;
+        const { moduleService } = services;
+        try {
+            const { name } = req.query;
+            const result = await moduleService.bulkDelete(
+                { name },
             );
             logger.info({ messgae: 'User deleted', data: [], option: [] });
             return res.send(SystemResponse.success('User deleted', result));
