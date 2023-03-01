@@ -1,4 +1,3 @@
-// import { isValidObjectId } from '../../libs/MongoUtils';
 import { isNumberValid, isValidObjectId } from '../../libs/MongoUtils';
 
 export default Object.freeze({
