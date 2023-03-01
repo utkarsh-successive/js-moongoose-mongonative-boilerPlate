@@ -9,135 +9,162 @@
 //     let mongoServer;
 //     let mongoUri;
 //     let req;
-//     let token;
 //     let ID;
 //     let ID2;
 //     let id;
-//     const pass = 'Training@node';
+//     let name;
 
+//     // beforeAll(async () => {
+//     //     jest.setTimeout(30000);
+     
+//     //     // Connect directly to the database
+//     //     const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.CLUSTER_URI}/test?retryWrites=true&w=majority`;
+//     //     mongoClient = new MongoClient(uri);
+//     //     await mongoClient.connect();
+//     //     collection = mongoClient.db(TwitterStatsDb).collection(statsCollection);
+//     //  });
 //     beforeAll(async () => {
 //         const app = await server.bootstrap();
 //         req = supertest(app);
-//         mongoServer = await MongoMemoryServer.create();
+
+//         mongoServer = await MongoMemoryServer.create({
+//             instance: {
+//                 dbName: 'users-mongo-boiler',
+//             },
+//         });
 //         mongoUri = mongoServer.getUri();
 //         await Database.open(mongoUri);
-//         await req.post('/api/users/registration')
-//             .send({
-//                 email: 'Anu@successive.tech',
-//                 password: 'Training@123',
-//                 name: 'Anuj',
-//             });
-
-//         const res = await req.post('/api/users/login')
-//             .send({
-//                 email: 'Anu@successive.tech',
-//                 password: 'Training@123',
-//             });
-
-//         token = res.body.data.data.token;
 //     });
-//     //* *** Positive Test Cases ****/
 
+//     //* *** Positive Test Cases ****/
 //     describe('Positive Test cases', () => {
-//         test('Create user', async () => {
+//         test('create user', async () => {
 //             const newUser = {
-//                 first_name: 'Trainee',
-//                 last_name: 'Team',
-//                 email: 'Trainee@gmail.com',
-//                 password: pass,
+//                 name: 'Test',
+//                 email: 'test@gmail.com',
+//                 mobile_no: '1234567890',
+//                 address: { flat_no: 1, city: 'test', state: 'mockTest' },
+//                 age: 25,
 //             };
 //             const res = await req
-//                 .post('/api/users/')
-//                 .set('Authorization', token)
+//                 .post('/api/user')
 //                 .send(newUser);
 //             expect(res.status).toBe(200);
-//             expect(res.body.data.first_name).toBe(newUser.first_name);
-//             expect(res.body.data.last_name).toBe(newUser.last_name);
+//             expect(res.body.data.name).toBe(newUser.name);
 //             ID = res.body.data.id;
 //         });
 
-//         test('Get all users', async () => {
-//             const res = await req.get('/api/users/').set('Authorization', token);
+//         test('get user list', async () => {
+//             const res = await req.get('/api/user');
 //             expect(res.status).toBe(200);
 //             expect(res.body.data).not.toBeUndefined();
 //         });
 
-//         test('Get user', async () => {
-//             const res = await req.get(`/api/users/${ID}`)
-//                 .set('Authorization', token);
+//         test('get single user', async () => {
+//             const res = await req.get(`/api/user/${ID}`);
 //             expect(res.status).toBe(200);
 //         });
 
-//         test('Update user', async () => {
+//         test('update user', async () => {
 //             const updateUser = {
-//                 id: `${ID}`,
-//                 first_name: 'Arjun',
-//                 last_name: 'Ali',
-//                 email: 'Arjun@gmail.com',
+//                 name: 'Mockuser',
+//                 email: 'mockuser@gmail.com',
 //             };
 //             const res = await req
-//                 .put('/api/users/')
-//                 .set('Authorization', token)
+//                 .put(`/api/user/${ID}`)
 //                 .send(updateUser);
 //             expect(res.status).toBe(200);
-//             expect(res.body.data.first_name).toBe(updateUser.first_name);
-//             expect(res.body.data.last_name).toBe(updateUser.last_name);
 //             ID2 = res.body.data.id;
 //         });
 
-//         test('Delete', async () => {
+//         test('delete user', async () => {
 //             const res = await req
-//                 .delete('/api/users/')
-//                 .set('Authorization', token)
-//                 .send({ id: ID2 });
+//                 .delete(`/api/user/${ID2}`);
 //             expect(res.status).toBe(200);
-//             expect(res.body.message).toBe('User deleted');
+//             expect(res.body.message).toBe('User information deleted');
+//         });
+//     });
+//     describe('Positive Bulk Test cases', () => {
+//         test('create Bulk user', async () => {
+//             const newUser = [{
+//                 name: 'Test',
+//                 email: 'test@gmail.com',
+//                 mobile_no: '1234567890',
+//                 address: { flat_no: 1, city: 'test', state: 'mockTest' },
+//                 age: 25,
+//             },
+//             {
+//                 name: 'Test',
+//                 email: 'test2@gmail.com',
+//                 mobile_no: '1234567890',
+//                 address: { flat_no: 2, city: 'test2', state: 'mockTest2' },
+//                 age: 25,
+//             }];
+//             const res = await req
+//                 .post('/api/user/bulk-insert')
+//                 .send({ users: newUser });
+//             expect(res.status).toBe(200);
+//             name = res.body.data[0].name;
+//         });
+
+//         test('delete Bulk user', async () => {
+//             const res = await req
+//                 .delete(`/api/user/bulk-delete?name=${name}`);
+//             expect(res.status).toBe(200);
+//             expect(res.body.message).toBe('Users information deleted');
 //         });
 //     });
 //     //* *** Negative Test Cases ****/
 
 //     describe('Negative Test Cases', () => {
-//         test('Negative Create user', async () => {
+//         test('negative user create case', async () => {
 //             const newUser = {};
 //             const res = await req
-//                 .post('/api/users/')
-//                 .set('Authorization', token)
+//                 .post('/api/user')
 //                 .send(newUser);
 //             expect(res.status).toBe(400);
-//             expect(res.body.message).toBe('Bad Request');
+//         });
+//         test('negative get user list', async () => {
+//             const res = await req.get('/api/user').query({ limit: '50', skip: '50' });
+//             expect(res.body.status).toBe(404);
 //         });
 
-//         test('Negative Get all users', async () => {
-//             const res = await req.get('/api/users/')
-//                 .set('Authorization', token)
-//                 .query({ limit: '5', skip: '5' });
-//             expect(res.body.status).toBe(400);
-//             expect(res.body.message).toBe('Data not found');
-//         });
-
-//         test('Negative Get user', async () => {
-//             const res = await req.get(`/api/users/${id}`)
-//                 .set('Authorization', token);
+//         test('negative get single user', async () => {
+//             const res = await req.get(`/api/user/${id}`);
 //             expect(res.status).toBe(400);
 //         });
 
-//         test('Negative Update user', async () => {
+//         test('negative update user', async () => {
 //             const updateUser = {};
 //             const res = await req
-//                 .put('/api/users/')
-//                 .set('Authorization', token)
+//                 .put(`/api/user/${'id'}`)
 //                 .send(updateUser);
 //             expect(res.status).toBe(400);
-//             expect(res.body.message).toBe('Bad Request');
 //         });
 
-//         test('Negative Delete', async () => {
+//         //* *** Test Case for DELETE API to delete the user ****/
+
+//         test('negative delete user', async () => {
 //             const res = await req
-//                 .delete('/api/users/')
-//                 .set('Authorization', token)
-//                 .send({ });
+//                 .delete('/api/user/');
+//             expect(res.status).toBe(404);
+//         });
+//     });
+//     describe('Negative Bulk Test Cases', () => {
+//         test('negative Bulk user create case', async () => {
+//             const newUser = [{}];
+//             const res = await req
+//                 .post('/api/user/bulk-insert')
+//                 .send({ users: newUser });
 //             expect(res.status).toBe(400);
-//             expect(res.body.message).toBe('Bad Request');
+//         });
+
+//         //* *** Test Case for DELETE API to delete the user ****/
+
+//         test('negative delete user', async () => {
+//             const res = await req
+//                 .delete('/api//user/bulk-delete?name = \'\'');
+//             expect(res.status).toBe(400);
 //         });
 //     });
 //     afterAll(async () => {
