@@ -13,6 +13,10 @@ class UserService {
         return this.userRepository.create(options);
     }
 
+    public async list(limit: number, skip: number, search: any): Promise<IUser[]> {
+        return this.userRepository.list(search, { limit, skip });
+    }
+
     public async bulkInsert(options): Promise<IUser[]> {
         return this.userRepository.bulkInsert(options);
     }
@@ -42,9 +46,8 @@ class UserService {
     }
 
     public async bulkDelete(options): Promise<any> {
-        const { name } = options;
         return this.userRepository.bulkDelete(
-            { first_name: name },
+            options,
         );
     }
 }

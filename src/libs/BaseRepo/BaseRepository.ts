@@ -12,10 +12,23 @@ export default class BaseRepository extends Database {
         options: IQueryBaseCreate,
     ): Promise<any> {
         const id = BaseRepository.generateObjectId();
-        return (await super.getDB()).collection(collection).insertOne({
+        const result = (await super.getDB()).collection(collection).insertOne({
             _id: id,
             ...options,
         });
+        return result;
+    }
+
+    protected async list(
+        collection: string,
+        query : any = {},
+        options : any = {},
+    ): Promise<any> {
+        const option = options;
+        option.limit = options.limit;
+        option.skip = options.skip;
+        return (await super.getDB()).collection(collection)
+            .find({ ...query, deletedAt: { $exists: false } }, option).toArray();
     }
 
     public async insertMany(
@@ -26,16 +39,22 @@ export default class BaseRepository extends Database {
     }
 
     public async deleteOne(collection: string, filter: any): Promise<any> {
-        return (await super.getDB()).collection(collection).deleteOne(filter);
+        const deleteData = (await super.getDB())
+            .collection(collection)
+            .updateOne(filter, { $set: { deletedAt: new Date() } });
+        return deleteData;
     }
 
     public async findOne(collection: string, options?: any): Promise<any> {
-        return (await super.getDB()).collection(collection).findOne(options);
+        return (await super.getDB())
+            .collection(collection)
+            .findOne({ ...options, deletedAt: { $exists: false } });
     }
 
     public async count(collection: string, query: any): Promise<number> {
-        const option = query.email || query.name  ? query : { _id: new ObjectId(query) };
-        return  (await super.getDB()).collection(collection).count(option);
+        const option = query.email || query.name ? query : { _id: new ObjectId(query) };
+        return (await super.getDB()).collection(collection)
+            .count({ ...option, deletedAt: { $exists: false } });
     }
 
     public async update(
@@ -47,7 +66,10 @@ export default class BaseRepository extends Database {
         const update = { ...itemsToUpdate };
         await (await super.getDB())
             .collection(collection)
-            .updateOne(option, { $set: { ...update, updatedAt: new Date() } });
+            .updateOne(
+                { ...option, deletedAt: { $exists: false } },
+                { $set: { ...update, updatedAt: new Date() } },
+            );
         const result = (await super.getDB())
             .collection(collection)
             .findOne(option);
@@ -62,17 +84,17 @@ export default class BaseRepository extends Database {
         const result = (await super.getDB())
             .collection(collection)
             .updateMany(
-                { ...query },
+                { ...query, deletedAt: { $exists: false } },
                 { $set: { ...itemsToUpdate, updatedAt: new Date() } },
             );
         return result;
     }
 
     public async deleteMany(collection: string, filter: any): Promise<any> {
-
-        return (await super.getDB()).collection(collection)
+        return (await super.getDB())
+            .collection(collection)
             .updateMany(
-                { ...filter },
+                { ...filter, deletedAt: { $exists: false } },
                 { $set: { deletedAt: new Date() } },
             );
     }

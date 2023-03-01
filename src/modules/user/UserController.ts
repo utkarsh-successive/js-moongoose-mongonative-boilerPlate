@@ -13,18 +13,19 @@ class UserController {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    public list = async (req, res, next): Promise<IUser[]> => {
+    public list = async (req, res): Promise<IUser[]> => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { limit, skip } = req.query;
-
-            // for user service - fetch
-            const result = await moduleService.list(limit, skip);
+            const { limit, skip, name } = req.query;
+            const result = await moduleService.list(
+                limit,
+                skip,
+                name && { name },
+            );
             if (!result.length) {
-                logger.debug({ message: 'Data not found', option: [], data: [] });
-
-                return next(SystemResponse.badRequestError('Data not found', ''));
+                logger.debug({ message: 'Users not found', data: [] });
+                return res.send(SystemResponse.notFoundError('Users not found', []));
             }
             logger.info({ message: 'List of Users', data: [], option: [] });
             return res.send(SystemResponse.success('List of Users ', result));
@@ -39,17 +40,11 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { email } = req.body;
-            const totalUsers = await moduleService.count({ email });
-            if (totalUsers) {
-                logger.error({ message: 'User already exists' });
-                return res.send(
-                    SystemResponse.badRequestError('User already exists', {}),
-                );
-            }
-            const result = await moduleService.create(
+            const createOne = await moduleService.create(
                 req.body,
             );
+            const id = createOne.insertedId;
+            const result = await moduleService.get(id);
             logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {

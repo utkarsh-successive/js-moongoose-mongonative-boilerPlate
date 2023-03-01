@@ -423,12 +423,12 @@ router
  *                   type: number
  *                   example: 200
  */
-// router
-//      .route('/bulk-delete')
-//     .delete(
-//         validationHandler(validation.bulkDelete as any),
-//         controller.bulkDelete,
-//     );
+router
+    .route('/bulk-delete')
+    .delete(
+        validationHandler(validation.bulkDelete as any),
+        controller.bulkDelete,
+    );
 
 /**
  * @swagger
@@ -463,10 +463,10 @@ router
     .route('/:id')
     .delete(validationHandler(validation.delete as any), controller.delete);
 
-router.route('/bulkDelete/:name')
-    .delete(
-        // validationHandler(validation.registration as any),
-        controller.bulkDelete,
-    );
+// router.route('/bulkDelete/:name')
+//     .delete(
+//         // validationHandler(validation.registration as any),
+//         controller.bulkDelete,
+//     );
 
 export default router;
