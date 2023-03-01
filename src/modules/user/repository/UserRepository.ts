@@ -1,13 +1,17 @@
 import { DeleteResult } from 'mongodb';
 import BaseRepository from '../../../libs/BaseRepo/BaseRepository';
 import {
-    IQueryCreate, IQueryDelete, IQueryGet, IQueryUpdate,
+    IQueryCreate, IQueryDelete, IQueryGet, IQueryList, IQueryUpdate,
 } from '../entities';
 import IUserModel from './IUserModel';
 
 class UserRepository extends BaseRepository {
     public async create(options: IQueryCreate): Promise<IUserModel> {
         return super.insert('users', options);
+    }
+
+    public async list(search, options: IQueryList): Promise<IUserModel[]> {
+        return super.list('users', search, options);
     }
 
     public async bulkInsert(options: IQueryCreate): Promise<IUserModel[]> {
