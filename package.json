@@ -1,7 +1,7 @@
 {
-  "name": "express-boilerplate",
+  "name": "MongoDB Native Boilerplate",
   "version": "1.0.0",
-  "description": "Express-boilerplates (services), is a basic application from where a developer can start a new service. It showcase all (or almost all) of the features or say best practices that we can use in an API.",
+  "description": "MongoDB Native -boilerplates (services), is a basic application from where a developer can start a new service. It showcase all (or almost all) of the features or say best practices that we can use in an API.",
   "main": "src/index.js",
   "scripts": {
     "prebuild": "npm run remove-dist",
@@ -40,8 +40,6 @@
   "dependencies": {
     "@types/jest": "27.4.0",
     "axios": "^0.27.2",
-    "bcrypt": "5.0.1",
-    "compression": "1.7.4",
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
     "dotenv": "10.0.0",
@@ -50,13 +48,10 @@
     "express-winston": "4.2.0",
     "helmet": "5.0.1",
     "jest": "27.4.7",
-    "jsonwebtoken": "8.5.1",
     "method-override": "3.0.0",
     "mongodb": "^5.0.1",
     "mongodb-memory-server": "8.0.4",
-    "mongoose": "^6.1.5",
     "nodemon": "2.0.15",
-    "redis": "4.0.2",
     "supertest": "6.2.2",
     "swagger-jsdoc": "6.1.0",
     "swagger-ui-express": "4.3.0",

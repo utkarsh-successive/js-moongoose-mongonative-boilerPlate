@@ -23,13 +23,3 @@ export const levels = {
     DEBUG: 'debug',
 };
 
-export const NotificationService = {
-    requestType: 'post',
-    route: '/notification',
-    templateId: {
-        registration: 'registration',
-        forgotPassword: 'forgotPassword',
-    },
-};
-
-export const BCRYPT_SALT_ROUNDS: number = 6;
