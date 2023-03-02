@@ -1,6 +1,7 @@
 import { SystemResponse } from '../../libs/response-handler';
 import IUser from './IUser';
 import { Nullable } from '../../libs/nullable';
+
 class UserController {
     private static instance;
 
@@ -100,7 +101,7 @@ class UserController {
             const { id } = req.params;
             const userInfo = await moduleService.get({
                 id,
-             });
+            });
             if (!userInfo || !Object.keys(userInfo)?.length) {
                 logger.info({ message: 'User not found', data: {} });
                 return res.send(SystemResponse.notFoundError('User not found', {}));
@@ -192,8 +193,8 @@ class UserController {
             const result = await moduleService.delete(
                 req.params,
             );
-            logger.info({ messgae: 'User deleted', data: [], option: [] });
-            return res.send(SystemResponse.success('User deleted', result));
+            logger.info({ messgae: 'User information deleted', data: [], option: [] });
+            return res.send(SystemResponse.success('User information deleted', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
             return res.send(SystemResponse.internalServerError);
@@ -215,13 +216,12 @@ class UserController {
                 { name },
             );
             logger.info({ messgae: 'User deleted', data: [], option: [] });
-            return res.send(SystemResponse.success('User deleted', result));
+            return res.send(SystemResponse.success('Users information deleted', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
             return res.send(SystemResponse.internalServerError);
         }
     };
-
 }
 
 export default UserController.getInstance();

@@ -1,4 +1,4 @@
-import { DeleteResult } from 'mongodb';
+import { Document, UpdateResult } from 'mongodb';
 import BaseRepository from '../../../libs/BaseRepo/BaseRepository';
 import {
     IQueryCreate, IQueryDelete, IQueryGet, IQueryList, IQueryUpdate,
@@ -18,7 +18,7 @@ class UserRepository extends BaseRepository {
         return super.insertMany('users', options);
     }
 
-    public async delete(options: IQueryDelete): Promise<DeleteResult | void> {
+    public async delete(options: IQueryDelete): Promise<UpdateResult | void> {
         return super.deleteOne('users', options);
     }
 
@@ -26,14 +26,15 @@ class UserRepository extends BaseRepository {
         return super.findOne('users', query);
     }
 
-    public async update(options, itemsToUpdate: IQueryUpdate): Promise<IUserModel> {
+    public async update(options, itemsToUpdate: IQueryUpdate)
+    : Promise<UpdateResult | Document |void> {
         return super.update('users', options, itemsToUpdate);
     }
 
     public async bulkUpdate(
         query,
         itemsToUpdate: IQueryUpdate,
-    ): Promise<IUserModel[]> {
+    ): Promise<UpdateResult | Document> {
         return super.bulkUpdate('users', query, itemsToUpdate);
     }
 
@@ -41,7 +42,7 @@ class UserRepository extends BaseRepository {
         return super.count('users', query);
     }
 
-    public async bulkDelete(options: any): Promise<DeleteResult | void> {
+    public async bulkDelete(options: any): Promise<UpdateResult | void> {
         return super.deleteMany('users', options);
     }
 }
