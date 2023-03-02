@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { Document, ObjectId, UpdateResult } from 'mongodb';
 import IUser from './IUser';
 import UserRepository from './repository/UserRepository';
 
@@ -26,11 +26,11 @@ class UserService {
         return this.userRepository.get({ _id: new ObjectId(id) });
     }
 
-    public async update(option: string, query): Promise<IUser> {
+    public async update(option: string, query): Promise<UpdateResult | Document |void> {
         return this.userRepository.update(option, query);
     }
 
-    public async bulkUpdate(query, itemsToUpdate): Promise<IUser[]> {
+    public async bulkUpdate(query, itemsToUpdate): Promise<UpdateResult | Document> {
         return this.userRepository.bulkUpdate(query, itemsToUpdate);
     }
 
@@ -38,14 +38,14 @@ class UserService {
         return this.userRepository.count(query);
     }
 
-    public async delete(options): Promise<any> {
+    public async delete(options): Promise<UpdateResult | void> {
         const { id } = options;
         return this.userRepository.delete(
             { _id: new ObjectId(id) },
         );
     }
 
-    public async bulkDelete(options): Promise<any> {
+    public async bulkDelete(options): Promise<UpdateResult | void> {
         return this.userRepository.bulkDelete(
             options,
         );

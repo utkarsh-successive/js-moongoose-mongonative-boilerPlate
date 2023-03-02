@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { UpdateResult, ObjectId, Document } from 'mongodb';
 import { IQueryBaseCreate, IQueryUpdate } from '../../modules/user/entities';
 import Database from '../database/Database';
 
@@ -38,7 +38,7 @@ export default class BaseRepository extends Database {
         return (await super.getDB()).collection(collection).insertMany(options);
     }
 
-    public async deleteOne(collection: string, filter: any): Promise<any> {
+    public async deleteOne(collection: string, filter: any): Promise<UpdateResult | void> {
         const deleteData = (await super.getDB())
             .collection(collection)
             .updateOne(filter, { $set: { deletedAt: new Date() } });
@@ -61,7 +61,7 @@ export default class BaseRepository extends Database {
         collection: string,
         query?: any,
         itemsToUpdate?: IQueryUpdate,
-    ): Promise<any> {
+    ): Promise<UpdateResult | Document | void> {
         const option = { _id: new ObjectId(query) };
         const update = { ...itemsToUpdate };
         await (await super.getDB())
@@ -80,7 +80,7 @@ export default class BaseRepository extends Database {
         collection: string,
         query: any,
         itemsToUpdate: IQueryUpdate,
-    ): Promise<any> {
+    ): Promise<UpdateResult | Document > {
         const result = (await super.getDB())
             .collection(collection)
             .updateMany(
@@ -90,7 +90,7 @@ export default class BaseRepository extends Database {
         return result;
     }
 
-    public async deleteMany(collection: string, filter: any): Promise<any> {
+    public async deleteMany(collection: string, filter: any): Promise<UpdateResult | any> {
         return (await super.getDB())
             .collection(collection)
             .updateMany(
