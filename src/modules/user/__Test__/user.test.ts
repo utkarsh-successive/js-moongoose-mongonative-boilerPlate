@@ -13,7 +13,6 @@ describe('For user endpoints', () => {
     let mongoUri;
     let req;
     let ID;
-    // let ID2;
     let id;
     let name;
 
@@ -105,19 +104,19 @@ describe('For user endpoints', () => {
             // name = res.body.data[0].name;
         });
 
+        test('UpdateBulk users', async () => {
+            const res = await req
+                .put(`/api/user/bulk-update?name=${name}`)
+                .send({ age: 120 });
+            expect(res.status).toBe(200);
+            expect(res.body.message).toBe('Usersinfo update successfully');
+        });
         test('deleteBulk users', async () => {
             const res = await req.delete(
                 `/api/user/bulk-delete?name=${name}`,
             );
             expect(res.status).toBe(200);
             expect(res.body.message).toBe('Users information deleted');
-        });
-        test('UpdateBulk users', async () => {
-            const res = await req
-                .put(`/api/user/bulk-update?name=${'demo1'}`)
-                .send({ age: 120 });
-            expect(res.status).toBe(200);
-            expect(res.body.message).toBe('Usersinfo update successfully');
         });
     });
     //* *** Negative Test Cases ****/
