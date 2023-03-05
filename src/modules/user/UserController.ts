@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { SystemResponse } from '../../libs/response-handler';
 import IUser from './IUser';
 import { Nullable } from '../../libs/nullable';
@@ -13,7 +14,6 @@ class UserController {
         return UserController.instance;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     public list = async (req, res): Promise<IUser[]> => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -36,7 +36,6 @@ class UserController {
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
     public create = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -54,15 +53,14 @@ class UserController {
             );
             const id = createOne.insertedId;
             const result = await moduleService.get(id);
-            logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
+            logger.info({ messgae: 'User Created Successfully', data: result, option: [] });
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
-            return res.send(SystemResponse.internalServerError('Failed', err));
+            return res.send(SystemResponse.internalServerError(err.message, err));
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
     public bulkInsert = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -89,11 +87,10 @@ class UserController {
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
-            return res.send(SystemResponse.internalServerError('Failed', err));
+            return res.send(SystemResponse.internalServerError(err.message, err));
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
     public get = async (req, res): Promise<Nullable<IUser>> => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -114,7 +111,6 @@ class UserController {
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
     public update = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -149,7 +145,6 @@ class UserController {
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
     public bulkUpdate = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -175,11 +170,10 @@ class UserController {
             );
         } catch (error) {
             logger.error({ message: error.message, option: [{ Error: error.stack }] });
-            return res.send(SystemResponse.internalServerError(error.message, error.errors));
+            return res.send(SystemResponse.internalServerError(error.message, error));
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
     public delete = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -197,11 +191,10 @@ class UserController {
             return res.send(SystemResponse.success('User information deleted', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
-            return res.send(SystemResponse.internalServerError);
+            return res.send(SystemResponse.internalServerError(err.message, err));
         }
     };
 
-    // eslint-disable-next-line class-methods-use-this
     public bulkDelete = async (req, res) => {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
@@ -219,7 +212,7 @@ class UserController {
             return res.send(SystemResponse.success('Users information deleted', result));
         } catch (err) {
             logger.error({ message: err.message, option: [{ Error: err.stack }] });
-            return res.send(SystemResponse.internalServerError);
+            return res.send(SystemResponse.internalServerError(err.message, err));
         }
     };
 }

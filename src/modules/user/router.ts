@@ -131,7 +131,10 @@ router
  */
 router
     .route('/')
-    .post(validationHandler(validation.create as any), controller.create);
+    .post(
+        validationHandler(validation.create as any),
+        controller.create,
+    );
 /**
  * @swagger
  * tags:

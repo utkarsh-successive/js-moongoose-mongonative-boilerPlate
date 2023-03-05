@@ -1,5 +1,5 @@
 {
-  "name": "MongoDB Native Boilerplate",
+  "name": "mongodb-native-boilerplate",
   "version": "1.0.0",
   "description": "MongoDB Native -boilerplates (services), is a basic application from where a developer can start a new service. It showcase all (or almost all) of the features or say best practices that we can use in an API.",
   "main": "src/index.js",
@@ -40,6 +40,7 @@
   "dependencies": {
     "@types/jest": "27.4.0",
     "axios": "^0.27.2",
+    "compression": "^1.7.4",
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
     "dotenv": "10.0.0",
@@ -59,7 +60,7 @@
     "winston": "3.4.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.18.2",
+    "@babel/eslint-parser": "^7.18.2",
     "@types/jest": "27.4.0",
     "@types/node": "17.0.8",
     "@types/supertest": "2.0.11",

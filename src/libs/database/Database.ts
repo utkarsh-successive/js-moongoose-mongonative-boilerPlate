@@ -1,6 +1,10 @@
-import { MongoClient } from 'mongodb';
+import { Collection, MongoClient } from 'mongodb';
 import { IConfig } from '../../config/IConfig';
+import { createLogger } from '../logger';
 import config from '../../config/configuration';
+import loggerConfig from '../../config/LoggerConfig';
+
+const logger = createLogger.createLogInstance(loggerConfig);
 
 class Database {
     private client: MongoClient;
@@ -18,8 +22,9 @@ class Database {
             // Connect the client to the server (optional starting in v4.7)
             await this.client.connect();
             // Establish and verify connection
-            await this.client.db('admin').command({ ping: 1 });
-            console.log('Connected successfully to Database');
+            await this.client.db(this.dbName).command({ ping: 1 });
+            // eslint-disable-next-line no-console
+            logger.info('Connected successfully to Database');
         } catch (error) {
             // Throw Error when unable to connect to DB
             throw new Error(`Error while connecting to Database ${error}`);
@@ -29,8 +34,17 @@ class Database {
         }
     }
 
+    public async close() {
+        return this.client.close();
+    }
+
     public async getDB() {
         return this.client.db(this.dbName);
+    }
+
+    public async createCollection(collectionName, validationObj): Promise<Collection> {
+        return (await this.getDB())
+            .createCollection(collectionName, validationObj);
     }
 }
 
