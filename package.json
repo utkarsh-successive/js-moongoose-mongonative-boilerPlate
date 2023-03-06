@@ -38,6 +38,7 @@
   },
   "homepage": "https://github.com/squad-hub/js-express-boilerplate.git#readme",
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/jest": "27.4.0",
     "axios": "^0.27.2",
     "compression": "^1.7.4",

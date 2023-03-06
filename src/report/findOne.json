@@ -1,0 +1,27 @@
+[
+  {
+    "opration": "findOne",
+    "timeConsumed": 13.889912992715836,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "findOne",
+    "timeConsumed": 8.973021984100342,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "findOne",
+    "timeConsumed": 14.049668997526169,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "findOne",
+    "timeConsumed": 10.784784018993378,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "findOne",
+    "timeConsumed": 9.107730001211166,
+    "totalDataProcessed": 1
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "opration": "updateMany",
+    "timeConsumed": 22.821770012378693,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "updateMany",
+    "timeConsumed": 22.917052000761032,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "updateMany",
+    "timeConsumed": 22.530703991651535,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "updateMany",
+    "timeConsumed": 21.120122998952866,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "updateMany",
+    "timeConsumed": 29.869237005710602,
+    "totalDataProcessed": 500
+  }
+]

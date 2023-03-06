@@ -1,0 +1,27 @@
+[
+  {
+    "opration": "updateOne",
+    "timeConsumed": 16.48073101043701,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "updateOne",
+    "timeConsumed": 17.098190993070602,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "updateOne",
+    "timeConsumed": 15.27667099237442,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "updateOne",
+    "timeConsumed": 16.44589102268219,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "updateOne",
+    "timeConsumed": 16.552028000354767,
+    "totalDataProcessed": 1
+  }
+]

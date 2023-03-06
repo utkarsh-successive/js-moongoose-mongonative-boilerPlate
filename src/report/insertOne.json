@@ -1,0 +1,52 @@
+[
+  {
+    "opration": "insertOne",
+    "timeConsumed": 14.763107001781464,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 20.41203197836876,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 19.7173810005188,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 14.362635999917984,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 18.595753997564316,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 21.13459700345993,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 25.087365001440048,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 25.99551197886467,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 24.26925101876259,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "insertOne",
+    "timeConsumed": 26.846171021461487,
+    "totalDataProcessed": 1
+  }
+]

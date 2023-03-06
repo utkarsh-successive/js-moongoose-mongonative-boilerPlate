@@ -1,0 +1,27 @@
+[
+  {
+    "opration": "insertMany",
+    "timeConsumed": 80.00240100383759,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "insertMany",
+    "timeConsumed": 65.84810298681259,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "insertMany",
+    "timeConsumed": 57.838700979948044,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "insertMany",
+    "timeConsumed": 61.015253990888596,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "insertMany",
+    "timeConsumed": 60.18989300727844,
+    "totalDataProcessed": 500
+  }
+]

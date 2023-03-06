@@ -1,7 +1,12 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
+import { performance } from 'perf_hooks';
 import { SystemResponse } from '../../libs/response-handler';
 import IUser from './IUser';
 import { Nullable } from '../../libs/nullable';
+import script from '../../script/index';
+import addLogReport from '../../report/index';
+// import configurations from '../../config/configuration';
 
 class UserController {
     private static instance;
@@ -18,7 +23,9 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { limit, skip, name } = req.query;
+            // const { limit, skip, name } = req.query;
+            const { limit = 10, skip = 0, name } = req.query;
+            const startTime = performance.now();
             const result = await moduleService.list(
                 limit,
                 skip,
@@ -28,6 +35,8 @@ class UserController {
                 logger.debug({ message: 'Users not found', data: [] });
                 return res.send(SystemResponse.notFoundError('Users not found', []));
             }
+            const endTime = performance.now() - startTime;
+            addLogReport('findMany', endTime, result.length);
             logger.info({ message: 'List of Users', data: [], option: [] });
             return res.send(SystemResponse.success('List of Users ', result));
         } catch (err) {
@@ -40,7 +49,10 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { email } = req.body;
+            // const { email } = req.body;
+            const user = script.generateUserData(1);
+            const { email } = user[0];
+            const startTime = performance.now();
             const totalUsers = await moduleService.count({ email });
             if (totalUsers) {
                 logger.error({ message: 'User already exists' });
@@ -49,10 +61,12 @@ class UserController {
                 );
             }
             const createOne = await moduleService.create(
-                req.body,
+                user[0],
             );
             const id = createOne.insertedId;
             const result = await moduleService.get(id);
+            const endTime = performance.now() - startTime;
+            addLogReport('insertOne', endTime, 1);
             logger.info({ messgae: 'User Created Successfully', data: result, option: [] });
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {
@@ -65,8 +79,10 @@ class UserController {
         const { locals: { logger }, services } = res;
         const { moduleService } = services;
         try {
-            const { users = [] } = req.body;
-            const fetchAllEmails = users.map(({ email }) => email);
+            // const { users = [] } = req.body;
+            const user = script.generateUserData(500);
+            const startTime = performance.now();
+            const fetchAllEmails = user.map(({ email }) => email);
             if (fetchAllEmails.length !== [...new Set(fetchAllEmails)].length) {
                 logger.error({ message: 'Duplicate User' });
                 return res.send(
@@ -82,7 +98,13 @@ class UserController {
                     SystemResponse.badRequestError('User already exists', {}),
                 );
             }
-            const result = await moduleService.bulkInsert(users);
+            const result = await moduleService.bulkInsert(user);
+            const endTime = performance.now() - startTime;
+            addLogReport('insertMany', endTime, 500);
+            // const data = { insertedIds: result.map((item) => item._id) };
+            // if (configurations.autoTest) {
+            //     script.storeId(data.insertedIds, 'User');
+            // }
             logger.info({ messgae: 'User Created Successfully', data: [], option: [] });
             return res.send(SystemResponse.success('User created', result));
         } catch (err) {
@@ -96,6 +118,7 @@ class UserController {
         const { moduleService } = services;
         try {
             const { id } = req.params;
+            const startTime = performance.now();
             const userInfo = await moduleService.get({
                 id,
             });
@@ -103,6 +126,8 @@ class UserController {
                 logger.info({ message: 'User not found', data: {} });
                 return res.send(SystemResponse.notFoundError('User not found', {}));
             }
+            const endTime = performance.now() - startTime;
+            addLogReport('findOne', endTime, 1);
             logger.info({ message: 'Fetch user successfully', data: userInfo });
             return res.send(SystemResponse.success('Fetch user successfully', userInfo));
         } catch (error) {
@@ -117,6 +142,7 @@ class UserController {
         try {
             const { id } = req.params;
             const data = req.body;
+            const startTime = performance.now();
             if (data?.email) {
                 const { email } = data;
                 const totalUsers = await moduleService.count({ email });
@@ -135,6 +161,8 @@ class UserController {
                 return res.send(SystemResponse.notFoundError('User not found', {}));
             }
             const result = await moduleService.update(req.params.id, data);
+            const endTime = performance.now() - startTime;
+            addLogReport('updateOne', endTime, 1);
             logger.info({ messgae: 'Userinfo update successfully', data: result });
             return res.send(
                 SystemResponse.success('Userinfo update successfully', result),
@@ -151,6 +179,7 @@ class UserController {
         try {
             const { name } = req.query;
             const data = req.body;
+            const startTime = performance.now();
             if (data?.email) {
                 logger.info({ message: 'Cannot update duplicate email', data: [] });
                 return res.send(SystemResponse.notFoundError('Cannot update duplicate emails', []));
@@ -164,6 +193,8 @@ class UserController {
                 { name },
                 data,
             );
+            const endTime = performance.now() - startTime;
+            addLogReport('updateMany', endTime, totalUsers);
             logger.info({ messgae: 'Usersinfo update successfully', data: result });
             return res.send(
                 SystemResponse.success('Usersinfo update successfully', result),
@@ -179,6 +210,7 @@ class UserController {
         const { moduleService } = services;
         try {
             const { id } = req.params;
+            const startTime = performance.now();
             const totalUser = await moduleService.count({ id });
             if (!totalUser) {
                 logger.info({ message: 'User not found', data: [] });
@@ -187,6 +219,8 @@ class UserController {
             const result = await moduleService.delete(
                 req.params,
             );
+            const endTime = performance.now() - startTime;
+            addLogReport('deleteOne', endTime, 1);
             logger.info({ messgae: 'User information deleted', data: [], option: [] });
             return res.send(SystemResponse.success('User information deleted', result));
         } catch (err) {
@@ -200,6 +234,7 @@ class UserController {
         const { moduleService } = services;
         try {
             const { name } = req.query;
+            const startTime = performance.now();
             const totalUsers = await moduleService.count({ name });
             if (!totalUsers) {
                 logger.info({ message: 'Users not found', data: [] });
@@ -208,6 +243,8 @@ class UserController {
             const result = await moduleService.bulkDelete(
                 { name },
             );
+            const endTime = performance.now() - startTime;
+            addLogReport('deleteMany', endTime, totalUsers);
             logger.info({ messgae: 'User deleted', data: [], option: [] });
             return res.send(SystemResponse.success('Users information deleted', result));
         } catch (err) {

@@ -68,7 +68,7 @@ const router = Router();
 router
     .route('/bulk-insert')
     .post(
-        validationHandler(validation.bulkInsert as any),
+        // validationHandler(validation.bulkInsert as any),
         controller.bulkInsert,
     );
 /**
@@ -132,7 +132,7 @@ router
 router
     .route('/')
     .post(
-        validationHandler(validation.create as any),
+        // validationHandler(validation.create as any),
         controller.create,
     );
 /**
@@ -186,7 +186,10 @@ router
 
 router
     .route('/')
-    .get(validationHandler(validation.list as any), controller.list);
+    .get(
+        validationHandler(validation.list as any),
+        controller.list,
+    );
 
 /**
  * @swagger
@@ -240,7 +243,10 @@ router
  */
 router
     .route('/:id')
-    .get(validationHandler(validation.get as any), controller.get);
+    .get(
+        validationHandler(validation.get as any),
+        controller.get,
+    );
 
 /**
  * @swagger
@@ -395,7 +401,10 @@ router
  */
 router
     .route('/:id')
-    .put(validationHandler(validation.update as any), controller.update);
+    .put(
+        validationHandler(validation.update as any),
+        controller.update,
+    );
 
 /**
  * @swagger
@@ -464,12 +473,9 @@ router
  */
 router
     .route('/:id')
-    .delete(validationHandler(validation.delete as any), controller.delete);
-
-// router.route('/bulkDelete/:name')
-//     .delete(
-//         // validationHandler(validation.registration as any),
-//         controller.bulkDelete,
-//     );
+    .delete(
+        validationHandler(validation.delete as any),
+        controller.delete,
+    );
 
 export default router;

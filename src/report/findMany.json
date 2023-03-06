@@ -1,0 +1,27 @@
+[
+  {
+    "opration": "findMany",
+    "timeConsumed": 54.77643200755119,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "findMany",
+    "timeConsumed": 57.91985899209976,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "findMany",
+    "timeConsumed": 42.66429999470711,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "findMany",
+    "timeConsumed": 41.41942700743675,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "findMany",
+    "timeConsumed": 48.31725999712944,
+    "totalDataProcessed": 500
+  }
+]

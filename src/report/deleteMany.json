@@ -1,0 +1,27 @@
+[
+  {
+    "opration": "deleteMany",
+    "timeConsumed": 60.69258400797844,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "deleteMany",
+    "timeConsumed": 21.164895981550217,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "deleteMany",
+    "timeConsumed": 21.683898001909256,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "deleteMany",
+    "timeConsumed": 21.890576988458633,
+    "totalDataProcessed": 500
+  },
+  {
+    "opration": "deleteMany",
+    "timeConsumed": 28.332239001989365,
+    "totalDataProcessed": 500
+  }
+]

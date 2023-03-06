@@ -1,0 +1,27 @@
+[
+  {
+    "opration": "deleteOne",
+    "timeConsumed": 13.712175011634827,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "deleteOne",
+    "timeConsumed": 11.641279995441437,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "deleteOne",
+    "timeConsumed": 9.566125005483627,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "deleteOne",
+    "timeConsumed": 12.211033999919891,
+    "totalDataProcessed": 1
+  },
+  {
+    "opration": "deleteOne",
+    "timeConsumed": 10.053808003664017,
+    "totalDataProcessed": 1
+  }
+]
