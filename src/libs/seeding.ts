@@ -34,8 +34,8 @@ const seedSchemaValidation = async () => {
 
             // NOTE: create new collection and it's validation
 
-            logger.info({ message: 'New Collection Adding START' });
             if (newCollection.length) {
+                logger.info({ message: 'New Collection Adding START' });
                 const newCollectionPromise = newCollection.map(async (collection) => {
                     const { name: collectionName, schemaValidation } = collection;
                     return db.createCollection(
@@ -44,12 +44,12 @@ const seedSchemaValidation = async () => {
                     );
                 });
                 await Promise.all(newCollectionPromise);
+                logger.info({ message: 'New Collection Adding End' });
             }
-            logger.info({ message: 'New Collection Adding End' });
             // NOTE: Update already exists collection validations
 
-            logger.info({ message: 'Update Collection START' });
             if (collections.length) {
+                logger.info({ message: 'Update Collection START' });
                 const alreadyExistsPromise = collections.map(async (collection) => {
                     const { name: collectionName = '' } = collection;
                     const validator = validation[collectionName];
@@ -59,8 +59,8 @@ const seedSchemaValidation = async () => {
                     });
                 });
                 await Promise.all(alreadyExistsPromise);
+                logger.info({ message: 'Update Collection End' });
             }
-            logger.info({ message: 'Update Collection End' });
 
             logger.info(':::::::::::::; SEEDING END ::::::::::::::::::');
         }

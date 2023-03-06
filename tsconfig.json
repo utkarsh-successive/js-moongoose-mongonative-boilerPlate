@@ -22,7 +22,7 @@
   },
   "exclude": ["dist"],
   "include": [
-    "src"
+    "src" 
   ],
   "types": ["src/types","mocha"]
 }
