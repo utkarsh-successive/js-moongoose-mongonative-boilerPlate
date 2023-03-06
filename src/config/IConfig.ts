@@ -9,4 +9,5 @@ export interface IConfig extends ISwaggerDefinition {
   mongooseDebug: boolean;
   swaggerUrl: string;
   secret: string;
+  autoTest: boolean;
 }

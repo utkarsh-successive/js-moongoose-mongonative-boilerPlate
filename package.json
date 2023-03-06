@@ -38,6 +38,7 @@
   },
   "homepage": "https://github.com/squad-hub/js-express-boilerplate.git#readme",
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/jest": "27.4.0",
     "axios": "^0.27.2",
     "bcrypt": "5.0.1",
@@ -55,6 +56,7 @@
     "mongodb-memory-server": "8.0.4",
     "mongoose": "^6.1.5",
     "nodemon": "2.0.15",
+    "perf_hooks": "^0.0.1",
     "redis": "4.0.2",
     "supertest": "6.2.2",
     "swagger-jsdoc": "6.1.0",

@@ -15,6 +15,8 @@ export const configurations: IConfig = Object.freeze({
     mongooseDebug: isMongooseDebug,
     port: process.env.PORT,
     secret: process.env.SECRET_KEY,
+    // eslint-disable-next-line no-unneeded-ternary
+    autoTest: process.env.AUTO_TEST === 'true' ? true : false,
     swaggerDefinition: {
         openapi: '3.0.0',
         basePath: constants.API_PREFIX,

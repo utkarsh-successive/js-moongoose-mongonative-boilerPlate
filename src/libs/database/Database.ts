@@ -9,7 +9,7 @@ export default class Database {
     public static open(mongoUri) {
         return new Promise((resolve, reject) => {
             const options = {
-                autoIndex: false,
+                autoIndex: true,
             };
             let connectionString = null;
             if (mongoUri) {

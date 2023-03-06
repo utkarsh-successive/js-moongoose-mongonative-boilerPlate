@@ -69,7 +69,7 @@ const router = Router();
 router
     .route('/bulk-insert')
     .post(
-        validationHandler(validation.bulkInsert as any),
+        // validationHandler(validation.bulkInsert as any),
         controller.bulkInsert,
     );
 /**
@@ -133,7 +133,7 @@ router
 router
     .route('/')
     .post(
-        validationHandler(validation.create as any),
+        // validationHandler(validation.create as any),
         controller.create,
     );
 /**
@@ -322,7 +322,7 @@ router
 router
     .route('/bulk-update')
     .put(
-        validationHandler(validation.bulkUpdate as any),
+        // validationHandler(validation.bulkUpdate as any),
         controller.bulkUpdate,
     );
 
@@ -403,7 +403,7 @@ router
 router
     .route('/:id')
     .put(
-        validationHandler(validation.update as any),
+        // validationHandler(validation.update as any),
         controller.update,
     );
 
@@ -438,7 +438,7 @@ router
  */
 router.route('/bulk-delete')
     .delete(
-        validationHandler(validation.bulkDelete as any),
+        // validationHandler(validation.bulkDelete as any),
         controller.bulkDelete,
     );
 
