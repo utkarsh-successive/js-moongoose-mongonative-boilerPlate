@@ -10,4 +10,6 @@ export interface IConfig extends ISwaggerDefinition {
   swaggerUrl: string;
   secret: string;
   databaseName: string;
+  isSeedingSchemaValidationActive: string;
+  isSeedingIndexes: string;
 }

@@ -44,6 +44,8 @@ export const configurations: IConfig = Object.freeze({
         },
     },
     swaggerUrl: constants.SWAGGER_URL,
+    isSeedingSchemaValidationActive: process.env.IS_SEEDING_SCHEMAVALIDATION_ACTIVE,
+    isSeedingIndexes: process.env.IS_SEEDING_INDEXES,
 }) as IConfig;
 
 export default configurations;

@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import CodeMessage from './CodeMessage';
 import StatusCodes from './StatusCodes';
 
@@ -111,7 +112,8 @@ class SystemResponse {
    * @returns {Object} Formatted object having message, status and error.
    */
     public static badRequestError(message, error) {
-        return SystemResponse.getInstance().getErrorResponse(message, error, StatusCodes.BAD_REQUEST);
+        return SystemResponse.getInstance()
+            .getErrorResponse(message, error, StatusCodes.BAD_REQUEST);
     }
 
     /**
@@ -120,7 +122,8 @@ class SystemResponse {
    * @returns {Object} Formatted object having message, status and error.
    */
     public static unauthorizedError(message, error) {
-        return SystemResponse.getInstance().getErrorResponse(message, error, StatusCodes.UNAUTHORIZED);
+        return SystemResponse.getInstance()
+            .getErrorResponse(message, error, StatusCodes.UNAUTHORIZED);
     }
 
     /**
@@ -311,7 +314,8 @@ class SystemResponse {
    * @returns {Object} Formatted object having message, status and error.
    */
     public static badGatewayError(message, error) {
-        return SystemResponse.getInstance().getErrorResponse(message, error, StatusCodes.BAD_GATEWAY);
+        return SystemResponse.getInstance()
+            .getErrorResponse(message, error, StatusCodes.BAD_GATEWAY);
     }
 
     /**

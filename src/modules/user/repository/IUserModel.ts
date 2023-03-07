@@ -1,6 +1,4 @@
-import IBaseDocument from '../../../libs/BaseRepo/IBaseDocument';
-
-interface IUserModel extends IBaseDocument {
+interface IUserModel {
   id: string;
   empId: string;
   name: string;

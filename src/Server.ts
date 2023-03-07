@@ -12,6 +12,7 @@ import notFoundRoute from './libs/routes';
 import Swagger from './libs/documentation/swagger/Swagger';
 import router from './router';
 import Database from './libs/database/Database';
+import initSchemaValidationSeeding from './libs/seeding';
 // import BaseRepository from './libs/BaseRepo/BaseRepository';
 // To Do Demo description
 export default class Server {
@@ -83,6 +84,7 @@ export default class Server {
             this.app.listen(port);
             // eslint-disable-next-line no-console
             console.log(`|| App is running at port '${port}' in '${env}' mode ||`);
+            this.initSeeding();
         } catch (e) {
             return e;
         }
@@ -169,4 +171,9 @@ export default class Server {
             throw new Error(err);
         }
     };
+
+    // eslint-disable-next-line class-methods-use-this
+    private initSeeding() {
+        initSchemaValidationSeeding();
+    }
 }
