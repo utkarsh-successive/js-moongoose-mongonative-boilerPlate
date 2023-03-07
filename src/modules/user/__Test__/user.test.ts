@@ -70,7 +70,6 @@ describe('For user endpoints', () => {
             };
             const res = await req.put(`/api/user/${ID}`).send(updateUser);
             expect(res.status).toBe(200);
-            // ID2 = res.body.data['_id'];
         });
 
         test('deleteOne user', async () => {
@@ -101,7 +100,6 @@ describe('For user endpoints', () => {
                 .post('/api/user/bulk-insert')
                 .send({ users: newUser });
             expect(res.status).toBe(200);
-            // name = res.body.data[0].name;
         });
 
         test('UpdateBulk users', async () => {

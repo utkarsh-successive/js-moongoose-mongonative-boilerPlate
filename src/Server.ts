@@ -7,14 +7,11 @@ import { errorHandler } from './libs/response-handler';
 import { createLogger, enableLoggerInstance, enableDebugger } from './libs/logger';
 import loggerConfig from './config/LoggerConfig';
 import { EnvVars } from './config/constants';
-// import Database from './libs/database/Database';
 import notFoundRoute from './libs/routes';
 import Swagger from './libs/documentation/swagger/Swagger';
 import router from './router';
 import Database from './libs/database/Database';
 import initSchemaValidationSeeding from './libs/seeding';
-// import BaseRepository from './libs/BaseRepo/BaseRepository';
-// To Do Demo description
 export default class Server {
     private app: express.Express;
 
